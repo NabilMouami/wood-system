@@ -1,0 +1,69 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+::-webkit-scrollbar {
+  width: 0px;
+}
+select {
+  padding: 12px;
+  color: #000;
+  font-weight: bold;
+  border: 2px solid #000;
+}
+.selOptions {
+  color: #383838;
+  width: 250px;
+  margin-top: 15px;
+}
+.collabList {
+  flex: 4;
+  border-radius: 12px;
+  background-color: #f2efef;
+}
+
+.collabListEdit {
+  border: none;
+  border-radius: 10px;
+  padding: 5px 10px;
+  background-color: #3bb077;
+  color: white;
+  cursor: pointer;
+  margin-right: 5px;
+}
+
+.collabListDelete {
+  color: red;
+  cursor: pointer;
+  height: 30px;
+  width: 30px;
+}
+
+.collabListEdit:hover {
+  background-color: white;
+  color: #3bb077;
+}
+
+.collabListDelete:hover {
+  background-color: red;
+  color: white;
+}
+
+.addnewCollab {
+  background-color: #000;
+  margin: 80px 20px;
+  color: rgb(114, 112, 112);
+  border: none;
+  border-radius: 5px;
+  height: 40px;
+  width: 240px;
+  font-size: 15px;
+  font-weight: 550;
+  cursor: pointer;
+  color: #d4cccc;
+}
+
+.addnewCollab:hover {
+  background-color: rgb(196, 193, 193);
+  color: rgb(99, 99, 122);
+}
