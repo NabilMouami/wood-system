@@ -17,6 +17,11 @@ import UpdUser from "./pages/auth/UpdUser";
 import ListClients from "./pages/Clients/ListClients";
 import AddClient from "./pages/Clients/AddClient";
 import UpdClient from "./pages/Clients/UpdClient";
+import AddBoisBlanc from "./pages/stock/boisblanc/AddBoisBlanc";
+import ListBoisBlanc from "./pages/stock/boisblanc/ListBoisBlanc";
+import UpdBoisBlanc from "./pages/stock/boisblanc/UpdBoisBlanc";
+import AddBoisDur from "./pages/stock/boisdur/AddBoisDur";
+import ListBoisDur from "./pages/stock/boisdur/ListBoisDur";
 
 function App() {
   return (
@@ -39,6 +44,13 @@ function App() {
           <Route path="clients" element={<ListClients />} />
           <Route path="ajoute-client" element={<AddClient />} />
           <Route path="client/:id" element={<UpdClient />} />
+          //BoisBlanc:Stock
+          <Route path="/ajoute-boisblanc" element={<AddBoisBlanc />} />
+          <Route path="/list-boisblanc" element={<ListBoisBlanc />} />
+          <Route path="/changer-boisblanc/:id" element={<UpdBoisBlanc />} />
+          //BoisDur:Stock
+          <Route path="/ajoute-boisdur" element={<AddBoisDur />} />
+          <Route path="/list-boisdur" element={<ListBoisDur />} />
         </Route>
       </Routes>
     </BrowserRouter>

@@ -21,7 +21,7 @@ import { ApiSecurity, ApiTags } from '@nestjs/swagger';
 @ApiTags('User')
 export class UserController {
   constructor(private readonly userService: UserService) {}
-
+  @ApiSecurity('JWT-auth')
   @Post('/signUp')
   create(@Body(ValidationPipe) createUserDto: CreateUserDto) {
     console.log(createUserDto);

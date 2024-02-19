@@ -1,3 +1,4 @@
+import { Facture } from 'src/facture/entity/facture.entity';
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
@@ -19,4 +20,7 @@ export class Client {
 
   @Column()
   cne: string;
+
+  @OneToMany(() => Facture, (post) => post.client)
+  factures: Facture[];
 }

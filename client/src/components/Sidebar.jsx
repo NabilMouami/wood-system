@@ -2,8 +2,6 @@ import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 // Icons
 import {
-  RiBarChart2Line,
-  RiEarthLine,
   RiLogoutCircleRLine,
   RiArrowRightSLine,
   RiMenu3Line,
@@ -74,11 +72,11 @@ const Sidebar = () => {
               <ul
                 className={` ${
                   showSubmenu ? "h-auto" : "h-0"
-                } overflow-y-hidden transition-all text-black`}
+                } overflow-y-hidden transition-all text-orange-300`}
               >
                 <li>
                   <Link
-                    to="/creer-bon-bagage"
+                    to="/list-boisblanc"
                     className="py-2 px-4 border-l border-gray-500 ml-6 block relative before:w-3 before:h-3 before:absolute before:bg-primary before:rounded-full before:-left-[6.5px] before:top-1/2 before:-translate-y-1/2 before:border-4 before:border-secondary-100 hover:text-white transition-colors"
                   >
                     Bois Blanc
@@ -86,7 +84,7 @@ const Sidebar = () => {
                 </li>
                 <li>
                   <Link
-                    to="/list-bon-bagage"
+                    to="/list-boisdur"
                     className="py-2 px-4 border-l border-gray-500 ml-6 block relative before:w-3 before:h-3 before:absolute before:bg-gray-500 before:rounded-full before:-left-[6.5px] before:top-1/2 before:-translate-y-1/2 before:border-4 before:border-secondary-100 hover:text-white transition-colors"
                   >
                     Bois Dur
@@ -179,7 +177,7 @@ const Sidebar = () => {
           onClick={() => Logout()}
           className="flex items-center gap-4 py-4 px-4 rounded-lg hover:bg-secondary-900 transition-colors"
         >
-          <RiLogoutCircleRLine className="text-primary" /> Log out
+          <RiLogoutCircleRLine className="text-red-500" /> Log out
         </button>
       </div>
       <button
