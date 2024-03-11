@@ -1,21 +1,29 @@
 import { useEffect, useState, Fragment } from "react";
-import axios from "axios";
-import { Typography } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 
 import { DataGrid } from "@mui/x-data-grid";
-import Box from "@mui/material/Box";
 import { Link, useNavigate } from "react-router-dom";
+import { RiAddCircleLine, RiDeleteBin3Fill } from "react-icons/ri";
+
 import { useDispatch } from "react-redux";
 import { detailsAcc } from "../../actions/action";
 import custom_axios from "../../axios/AxiosSetup";
+
 function ListFacture() {
   const [listProd, setListProd] = useState([]);
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
   useEffect(() => {
-    custom_axios.get("/boncomm").then((res) => {
-      setListProd(res.data);
-    });
+    custom_axios
+      .get("/facturation/factures", {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
+      })
+      .then((res) => {
+        setListProd(res.data);
+      });
   }, []);
 
   const details = (dts: any) => {
@@ -24,36 +32,36 @@ function ListFacture() {
   };
   const columns = [
     {
-      field: "nom",
-      headerName: "Nom Commerc:",
+      field: "lastName",
+      headerName: "Commerciel:",
       headerClassName: "super-app-theme--cell",
 
-      width: 220,
+      width: 200,
     },
     {
-      field: "prenom",
-      headerName: "Pre Commerc:",
-      headerClassName: "super-app-theme--cell",
-
-      width: 220,
-    },
-    {
-      field: "fullname",
+      field: "fullName",
       headerName: "Nom Complete Client:",
       headerClassName: "super-app-theme--cell",
 
       width: 260,
     },
     {
-      field: "date",
+      field: "date_creation",
       headerName: "Date Creation:",
       headerClassName: "super-app-theme--cell",
 
       width: 190,
     },
     {
-      field: "num_bon_comm",
-      headerName: "Num Dev:",
+      field: "id",
+      headerName: "Num Facture:",
+      headerClassName: "super-app-theme--cell",
+
+      width: 120,
+    },
+    {
+      field: "reglement",
+      headerName: "Reglement:",
       headerClassName: "super-app-theme--cell",
 
       width: 120,
@@ -110,6 +118,11 @@ function ListFacture() {
           </Link>
         </div>
         <div className="m-10 bg-slat-950">
+          <Link to="/creer-facture">
+            <Button variant="contained" startIcon={<RiAddCircleLine />}>
+              Facturer
+            </Button>
+          </Link>
           <Typography
             variant="h3"
             color="blue"
@@ -119,8 +132,10 @@ function ListFacture() {
           </Typography>
           <Box
             sx={{
-              height: 700,
+              height: "auto",
               width: "100%",
+              backgroundColor: "#fff",
+
               marginTop: "20px",
               borderRadius: "3px",
               fontWeight: "bold",
@@ -128,16 +143,18 @@ function ListFacture() {
               border: 2,
               borderColor: "primary.light",
               "& .MuiDataGrid-cell": {
+                backgroundColor: "#fff",
+
                 color: "#444",
                 fontSize: "20px",
                 fontWeight: "bold",
               },
               "& .super-app-theme--cell": {
-                backgroundColor: "#FAEBD7",
+                backgroundColor: "#fff",
                 color: "#1a3e72",
                 fontWeight: "bold",
                 borderRadius: "3px",
-                fontSize: "28px",
+                fontSize: "20px",
               },
             }}
           >

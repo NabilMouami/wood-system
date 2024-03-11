@@ -26,7 +26,7 @@ const Sidebar = () => {
   return (
     <>
       <div
-        className={`xl:h-[100vh] overflow-y-scroll fixed xl:static w-[80%] md:w-[40%] lg:w-[30%] xl:w-auto h-full top-0 bg-secondary-100 p-4 flex flex-col justify-between z-50 ${
+        className={`xl:h-[100vh] overflow-hidden fixed xl:static w-[80%] md:w-[40%] lg:w-[30%] xl:w-auto h-full top-0 bg-secondary-100 p-4 flex flex-col justify-between z-50 ${
           showMenu ? "left-0" : "-left-full"
         } transition-all`}
       >
@@ -39,7 +39,7 @@ const Sidebar = () => {
             <img
               src="/dazizwood.jpg"
               alt="logo-society"
-              className="rounded-full"
+              className="rounded-full cover-fill"
               width="100"
               height="100"
             />
@@ -92,7 +92,7 @@ const Sidebar = () => {
                 </li>
                 <li>
                   <Link
-                    to="/creer-bon-bagage"
+                    to="/list-boisrouge"
                     className="py-2 px-4 border-l border-gray-500 ml-6 block relative before:w-3 before:h-3 before:absolute before:bg-primary before:rounded-full before:-left-[6.5px] before:top-1/2 before:-translate-y-1/2 before:border-4 before:border-secondary-100 hover:text-white transition-colors"
                   >
                     Bois Rouge
@@ -100,7 +100,7 @@ const Sidebar = () => {
                 </li>
                 <li>
                   <Link
-                    to="/creer-bon-bagage"
+                    to="/list-contreplaques"
                     className="py-2 px-4 border-l border-gray-500 ml-6 block relative before:w-3 before:h-3 before:absolute before:bg-primary before:rounded-full before:-left-[6.5px] before:top-1/2 before:-translate-y-1/2 before:border-4 before:border-secondary-100 hover:text-white transition-colors"
                   >
                     Contre-Plaque
@@ -108,7 +108,7 @@ const Sidebar = () => {
                 </li>
                 <li>
                   <Link
-                    to="/creer-bon-bagage"
+                    to="/list-panneaux"
                     className="py-2 px-4 border-l border-gray-500 ml-6 block relative before:w-3 before:h-3 before:absolute before:bg-primary before:rounded-full before:-left-[6.5px] before:top-1/2 before:-translate-y-1/2 before:border-4 before:border-secondary-100 hover:text-white transition-colors"
                   >
                     Panneaux
@@ -145,14 +145,22 @@ const Sidebar = () => {
             </li>
             <li>
               <Link
-                to="/users"
+                to="/list-factures"
                 className="flex items-center gap-4 py-4 px-4 rounded-lg hover:bg-secondary-900 transition-colors"
               >
                 <RiBillLine className="text-primary" />
-                Facteur
+                Creer Facteur
               </Link>
             </li>
-
+            <li>
+              <Link
+                to="/list-factures"
+                className="flex items-center gap-4 py-4 px-4 rounded-lg hover:bg-secondary-900 transition-colors"
+              >
+                <RiBillLine className="text-primary" />
+                Facteurs Clients
+              </Link>
+            </li>
             <li>
               <Link
                 to="/users"

@@ -16,7 +16,7 @@ export class AuthController {
     //   jwt token
     const user: User = req.user;
     const payload = {
-      userId: user.id,
+      userId: user.iduser,
       firstName: user.firstName,
       lastName: user.lastName,
       email: user.email,

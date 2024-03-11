@@ -10,10 +10,13 @@ export class FactureBois {
   designation: string;
   @Column()
   qte: number;
-  @Column('double')
-  long: number;
+  @Column()
+  pieces: number;
+
   @Column('double')
   quantity: number;
+  @Column('double')
+  long: number;
   @Column()
   unity: string;
   @Column('double')
@@ -22,4 +25,6 @@ export class FactureBois {
   montant_ht: number;
   @Column()
   num_facture: number;
+  @Column('double')
+  remise: number;
 }

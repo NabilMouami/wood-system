@@ -25,6 +25,9 @@ export class BoisDurService {
   updateBois(id: number, updateUserDetails: CreateBoisDurDto) {
     return this.boisdurRepository.update({ id }, { ...updateUserDetails });
   }
+  updatePiecesBois(id: number, pieces: number) {
+    return this.boisdurRepository.update({ id: id }, { pieces: pieces });
+  }
   remove(id: number) {
     return this.boisdurRepository.delete(id);
   }

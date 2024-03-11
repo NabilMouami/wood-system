@@ -22,7 +22,7 @@ export class UserService {
   }
 
   findUserById(id: number) {
-    return this.userRepository.findOneOrFail({ where: { id: id } });
+    return this.userRepository.findOneOrFail({ where: { iduser: id } });
   }
 
   findAll() {
@@ -32,8 +32,8 @@ export class UserService {
   findUserByEmail(email: string) {
     return this.userRepository.findOne({ where: { email: email } });
   }
-  updateUser(id: number, updateUserDetails: CreateUserDto) {
-    return this.userRepository.update({ id }, { ...updateUserDetails });
+  updateUser(iduser: number, updateUserDetails: CreateUserDto) {
+    return this.userRepository.update({ iduser }, { ...updateUserDetails });
   }
   remove(id: number) {
     return this.userRepository.delete(id);

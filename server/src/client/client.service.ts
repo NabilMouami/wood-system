@@ -21,16 +21,18 @@ export class ClientService {
     return this.clientRepository.save(user);
   }
 
-  findClientById(id: number) {
-    return this.clientRepository.findOneOrFail({ where: { id: id } });
+  findClientById(idclient: number) {
+    return this.clientRepository.findOneOrFail({
+      where: { idclient: idclient },
+    });
   }
 
   findAll() {
     return this.clientRepository.find();
   }
 
-  updateClient(id: number, updateUserDetails: CreateClientDto) {
-    return this.clientRepository.update({ id }, { ...updateUserDetails });
+  updateClient(idclient: number, updateUserDetails: CreateClientDto) {
+    return this.clientRepository.update({ idclient }, { ...updateUserDetails });
   }
   remove(id: number) {
     return this.clientRepository.delete(id);

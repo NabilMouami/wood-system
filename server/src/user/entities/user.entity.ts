@@ -1,10 +1,10 @@
-import { Facture } from 'src/facture/entity/facture.entity';
+import { Facture } from 'src/facture/entities/facture.entity';
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class User {
   @PrimaryGeneratedColumn()
-  id: number;
+  iduser: number;
 
   @Column()
   firstName: string;

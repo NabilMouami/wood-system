@@ -13,13 +13,15 @@ export class CreateFactureBoisDto {
 
   @ApiProperty()
   qte: number;
-
   @ApiProperty()
-  long: number;
+  pieces: number;
 
   @ApiProperty()
   @IsNumber()
   quantity: number;
+
+  @ApiProperty()
+  long: number;
 
   @ApiProperty()
   unity: string;
@@ -32,4 +34,7 @@ export class CreateFactureBoisDto {
 
   @ApiProperty()
   num_facture: number;
+
+  @ApiProperty()
+  remise: number;
 }

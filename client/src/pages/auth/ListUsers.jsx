@@ -27,7 +27,7 @@ function ListUsers() {
 
   const details = (dts) => {
     dispatch(detailsAcc(dts));
-    navigate("/changer-user/" + dts.id);
+    navigate("/changer-user/" + dts.iduser);
   };
   const deleteEmployee = (id) => {
     custom_axios
@@ -35,7 +35,7 @@ function ListUsers() {
         headers: { Authorization: "Bearer " + localStorage.getItem("token") },
       })
       .then(() => {
-        setListUsers(listUsers.filter((row) => row.id !== id));
+        setListUsers(listUsers.filter((row) => row.iduser !== id));
       });
   };
   function popup(id, fname, lname) {
@@ -111,7 +111,11 @@ function ListUsers() {
             <RiChatDeleteFill
               className="collabListDelete"
               onClick={() => {
-                popup(params.row.id, params.row.firstName, params.row.lastName);
+                popup(
+                  params.row.iduser,
+                  params.row.firstName,
+                  params.row.lastName
+                );
               }}
             />
           </>
@@ -142,7 +146,7 @@ function ListUsers() {
         <DataGrid
           rows={listUsers}
           columns={columns}
-          getRowId={(row) => row.id}
+          getRowId={(row) => row.iduser}
           disableSelectionOnClick
           experimentalFeatures={{ newEditingApi: true }}
         />

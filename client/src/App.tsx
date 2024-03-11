@@ -22,6 +22,18 @@ import ListBoisBlanc from "./pages/stock/boisblanc/ListBoisBlanc";
 import UpdBoisBlanc from "./pages/stock/boisblanc/UpdBoisBlanc";
 import AddBoisDur from "./pages/stock/boisdur/AddBoisDur";
 import ListBoisDur from "./pages/stock/boisdur/ListBoisDur";
+import ListFacture from "./pages/facture/ListFacture";
+import CreerfctBL from "./pages/facture/CreerfctBL";
+import CreerfctBD from "./pages/facture/CreerfctBD";
+import CreerFacture from "./pages/facture/CreerFacture";
+import ListContrePlaque from "./pages/stock/contreplaque/ListContrePlaque";
+import AddContrePlaque from "./pages/stock/contreplaque/AddContrePlaque";
+import CreerfctCP from "./pages/facture/CreerfctCP";
+import AddBoisRouge from "./pages/stock/boisrouge/AddBoisRouge";
+import ListBoisRouge from "./pages/stock/boisrouge/ListBoisRouge";
+import ListPann from "./pages/stock/panneau/ListPann";
+import AddPann from "./pages/stock/panneau/AddPann";
+import UpdPanneau from "./pages/stock/panneau/UpdPanneau";
 
 function App() {
   return (
@@ -51,6 +63,22 @@ function App() {
           //BoisDur:Stock
           <Route path="/ajoute-boisdur" element={<AddBoisDur />} />
           <Route path="/list-boisdur" element={<ListBoisDur />} />
+          //BoisRouge:Stock
+          <Route path="/ajoute-boisrouge" element={<AddBoisRouge />} />
+          <Route path="/list-boisrouge" element={<ListBoisRouge />} />
+          //ContrePlaque:Stock
+          <Route path="/ajoute-contre-plaque" element={<AddContrePlaque />} />
+          <Route path="/list-contreplaques" element={<ListContrePlaque />} />
+          //Panneau:Stock
+          <Route path="/ajoute-panneau" element={<AddPann />} />
+          <Route path="/list-panneaux" element={<ListPann />} />
+          <Route path="/changer-panneau/:id" element={<UpdPanneau />} />
+          //Factures
+          <Route path="/list-factures" element={<ListFacture />} />
+          <Route path="/creer-facture" element={<CreerFacture />} />
+          <Route path="/creer-fct-BL" element={<CreerfctBL />} />
+          <Route path="/creer-fct-BD" element={<CreerfctBD />} />
+          <Route path="/creer-fct-CP" element={<CreerfctCP />} />
         </Route>
       </Routes>
     </BrowserRouter>

@@ -33,7 +33,7 @@ function ListClients() {
         },
       })
       .then(() => {
-        setListUsers(listUsers.filter((row) => row.id !== id));
+        setListUsers(listUsers.filter((row) => row.idclient !== id));
       });
   };
   function popup(id, fname) {
@@ -55,7 +55,7 @@ function ListClients() {
   }
   const details = (dts) => {
     dispatch(detailsAcc(dts));
-    navigate("/client/" + dts.id);
+    navigate("/client/" + dts.idclient);
   };
   const columns = [
     {
@@ -140,7 +140,7 @@ function ListClients() {
         <DataGrid
           rows={listUsers}
           columns={columns}
-          getRowId={(row) => row.id}
+          getRowId={(row) => row.idclient}
           disableSelectionOnClick
           experimentalFeatures={{ newEditingApi: true }}
         />

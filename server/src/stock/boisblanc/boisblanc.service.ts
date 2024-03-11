@@ -1,5 +1,4 @@
 import { Injectable } from '@nestjs/common';
-import { Constants } from 'src/utils/constants';
 import { CreateBoisBlancDto } from './dto/boisblanc.dto';
 import { BoisBlanc } from './entities/boisblanc.entity';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -24,6 +23,9 @@ export class BoisBlancService {
 
   updateBois(id: number, updateUserDetails: CreateBoisBlancDto) {
     return this.bolRepository.update({ id }, { ...updateUserDetails });
+  }
+  updatePiecesBois(id: number, pieces: number) {
+    return this.bolRepository.update({ id: id }, { pieces: pieces });
   }
   remove(id: number) {
     return this.bolRepository.delete(id);

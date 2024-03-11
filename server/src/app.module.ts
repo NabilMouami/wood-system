@@ -10,6 +10,13 @@ import { BoisBlanc } from './stock/boisblanc/entities/boisblanc.entity';
 import { BoisDur } from './stock/boisdur/entities/boisdur.entity';
 import { User } from './user/entities/user.entity';
 import { Client } from './client/entities/client.entity';
+import { Facture } from './facture/entities/facture.entity';
+import { FactureBois } from './facture/entities/facturebois.entity';
+import { FactureModule } from './facture/facture.module';
+import { ContrePlaque } from './stock/contreplaque/entities/contreplaque.entity';
+import { ContrePlaqueModule } from './stock/contreplaque/contreplaque.module';
+import { Panneau } from './stock/panneau/entities/panneau.entity';
+import { PanneauModule } from './stock/panneau/panneau.module';
 
 // FIND ALL USERS
 // ADD USER
@@ -36,7 +43,16 @@ import { Client } from './client/entities/client.entity';
         synchronize: true,
         logging: configService.get<boolean>('DATABASE_LOGGING'),
         database: configService.get('DATABASE_NAME'),
-        entities: [BoisBlanc, BoisDur, User, Client],
+        entities: [
+          BoisBlanc,
+          BoisDur,
+          ContrePlaque,
+          Panneau,
+          User,
+          Client,
+          Facture,
+          FactureBois,
+        ],
       }),
     }),
     UserModule,
@@ -44,6 +60,9 @@ import { Client } from './client/entities/client.entity';
     ClientModule,
     BoisBlancModule,
     BoisDurModule,
+    ContrePlaqueModule,
+    PanneauModule,
+    FactureModule,
   ],
 
   controllers: [],

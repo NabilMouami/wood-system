@@ -21,7 +21,9 @@ export class BoisBlanc {
   @Column('double')
   volume: number;
   @Column('double')
-  prix_unity: number;
+  prix_achat: number;
+  @Column('double')
+  prix_vente: number;
   @Column()
   date_creation: string;
 }

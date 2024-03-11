@@ -13,7 +13,8 @@ const AddBoisBlanc: React.FC = () => {
     larg: 0,
     epaisseur: 0,
     volume: 0,
-    prix_unity: 0,
+    prix_achat: 0,
+    prix_vente: 0,
     date_creation: "",
   });
 
@@ -100,19 +101,32 @@ const AddBoisBlanc: React.FC = () => {
                     </div>
                     <div className="col-span-2 sm:col-span-2">
                       <label className="block text-xl font-bold text-gray-700">
-                        Le Prix Unite:
+                        Le Prix Vente Ht:
                       </label>
                       <input
                         type="number"
                         step="any"
-                        name="prix_unity"
+                        name="prix_vente"
                         placeholder="Le Prix Dh:"
-                        defaultValue={post.prix_unity}
+                        defaultValue={post.prix_vente}
                         className="  w-full px-4  py-2 text-base border border-gray-300 rounded outline-none focus:ring-blue-500 focus:border-blue-500 focus:ring-1"
                         onChange={handleChange}
                       />
                     </div>
-
+                    <div className="col-span-2 sm:col-span-2">
+                      <label className="block text-xl font-bold text-gray-700">
+                        Le Prix Achat:
+                      </label>
+                      <input
+                        type="number"
+                        step="any"
+                        name="prix_achat"
+                        placeholder="Le Prix Dh:"
+                        defaultValue={post.prix_achat}
+                        className="  w-full px-4  py-2 text-base border border-gray-300 rounded outline-none focus:ring-blue-500 focus:border-blue-500 focus:ring-1"
+                        onChange={handleChange}
+                      />
+                    </div>
                     <div className="col-span-2">
                       <label className="block text-xl font-bold text-gray-700">
                         Piece Total:

@@ -2,6 +2,47 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --header-height: 3rem;
+  --nav-width: 4.25rem;
+  --first-color: #092a85;
+  --body-color: #f3f5fa;
+  --grey-color: #637381;
+  --purple-color: #8069f2;
+  --light-color: #eeeeee;
+  --green-color: #00ab55;
+  --light-blue-color: #d6e5fa;
+  --yellow-color: #fcd53b;
+  --blue-color: #265df1;
+  --red-color: #ef5b5b;
+  --body-font: "Nunito", sans-serif;
+  --normal-font-size: 1rem;
+  --z-fixed: 100;
+}
+
+*,
+::before,
+::after {
+  box-sizing: border-box;
+}
+
+body {
+  position: relative;
+  font-family: var(--body-font);
+  font-size: var(--normal-font-size);
+  transition: 0.5s;
+}
+
+a {
+  text-decoration: none;
+}
+button {
+  outline: 0 !important;
+}
+.page_isolant {
+  background-color: var(--body-color);
+  color: var(--grey-color);
+}
 .form-field {
   flex: 2;
 }

@@ -7,15 +7,10 @@ export class Facture {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ManyToOne(() => User, (user) => user.factures)
-  user: User;
-  @ManyToOne(() => Client, (client) => client.factures)
-  client: Client;
-
   @Column()
   reglement: string;
 
-  @Column()
+  @Column({ type: 'double' })
   remise: number;
 
   @Column()
@@ -23,4 +18,8 @@ export class Facture {
 
   @Column()
   date_creation: string;
+  @ManyToOne(() => User, (user) => user.factures)
+  user: User;
+  @ManyToOne(() => Client, (client) => client.factures)
+  client: Client;
 }
