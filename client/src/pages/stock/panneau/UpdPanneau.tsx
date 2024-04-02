@@ -40,7 +40,7 @@ function UpdPanneau() {
       })
       .then(() => {
         toast.success("Changement Success !!", {
-          position: "bottom-left",
+          position: "top-right",
         });
       });
   };

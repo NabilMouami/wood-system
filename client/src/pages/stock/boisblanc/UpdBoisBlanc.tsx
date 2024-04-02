@@ -18,7 +18,7 @@ function UpdBoisBlanc() {
   const [larg, setLarg] = useState(Col.larg);
   const [epaisseur, setEp] = useState(Col.epaisseur);
   const [volume, setVolume] = useState(Col.volume);
-  const [prix_unity, setPrix] = useState(Col.prix_unity);
+  const [prix_vente, setPrix] = useState(Col.prix_vente);
   const [date_creation, setDateCreation] = useState(Col.date_creation);
 
   const post = {
@@ -30,7 +30,7 @@ function UpdBoisBlanc() {
     larg,
     epaisseur,
     volume,
-    prix_unity,
+    prix_vente,
     date_creation,
   };
   const submitHandler = (e: React.FormEvent) => {
@@ -177,7 +177,7 @@ function UpdBoisBlanc() {
                         className="transition-all flex items-center h-10 border mt-1 rounded px-4 w-full bg-gray-50"
                         type="number"
                         step="any"
-                        defaultValue={Col.prix_unity}
+                        defaultValue={Col.prix_vente}
                         onChange={(e) => setPrix(e.target.value)}
                       />
                     </div>

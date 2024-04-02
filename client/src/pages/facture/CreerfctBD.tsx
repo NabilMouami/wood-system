@@ -220,7 +220,7 @@ function CreerfctBD() {
       field: "modification",
       headerName: "Modifications",
       headerClassName: "super-app-theme--cell",
-      width: 420,
+      width: 190,
       renderCell: (params: any) => {
         return (
           <>
@@ -282,7 +282,7 @@ function CreerfctBD() {
         </Fragment>
         <Box
           sx={{
-            height: 700,
+            height: "auto",
             width: "100%",
             margin: "20px",
             borderRadius: "12px",
@@ -297,7 +297,7 @@ function CreerfctBD() {
             },
             backgroundColor: "#fff",
             "& .super-app-theme--cell": {
-              backgroundColor: "#ffff1a",
+              backgroundColor: "#D2691E",
               color: "#000",
               fontWeight: "bold",
               fontSize: "18px",

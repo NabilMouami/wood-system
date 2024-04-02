@@ -5,7 +5,9 @@ export class CreateFactureDto {
   @ApiProperty()
   @IsString()
   reglement: string;
-
+  @ApiProperty()
+  @IsString()
+  payer: string;
   @ApiProperty()
   remise: number;
 

@@ -166,6 +166,32 @@ const ListBoisDur: React.FC = () => {
 
   const columns = [
     {
+      field: "modification",
+      headerName: "Modifications",
+      headerClassName: "super-app-theme--cell",
+      width: 170,
+      renderCell: (params: any) => {
+        return (
+          <>
+            <button
+              className="collabListEdit"
+              onClick={() => details(params.row)}
+            >
+              Changer
+            </button>
+
+            {/* delete a Bois */}
+            <RiDeleteBin3Fill
+              className="collabListDelete"
+              onClick={() => {
+                popup(params.row.id, params.row.marque);
+              }}
+            />
+          </>
+        );
+      },
+    },
+    {
       field: "marque",
       headerName: "Marque:",
       headerClassName: "super-app-theme--cell",
@@ -237,39 +263,6 @@ const ListBoisDur: React.FC = () => {
       headerClassName: "super-app-theme--cell",
       width: 150,
     },
-    {
-      field: "modification",
-      headerName: "Modifications",
-      headerClassName: "super-app-theme--cell",
-      width: 420,
-      renderCell: (params: any) => {
-        return (
-          <>
-            {/* update data of collabs */}
-            <button
-              className="collabListEdit"
-              onClick={() => ajouteAuBon(params.row)}
-            >
-              Ajoute au List
-            </button>
-            <button
-              className="collabListEdit"
-              onClick={() => details(params.row)}
-            >
-              Changer
-            </button>
-
-            {/* delete a Bois */}
-            <RiDeleteBin3Fill
-              className="collabListDelete"
-              onClick={() => {
-                popup(params.row.id, params.row.marque);
-              }}
-            />
-          </>
-        );
-      },
-    },
   ];
 
   return (
@@ -285,44 +278,10 @@ const ListBoisDur: React.FC = () => {
             List Des Bois Dur En Stock:
           </Typography>
         </div>
-        <Fragment>
-          <Dialog open={open}>
-            <DialogTitle>Ajoute Item en Bon.</DialogTitle>
-            <DialogContent>
-              <form onSubmit={handleSubmitBon}>
-                <div className="flex justify-around items-center mb-5">
-                  <div className="flex flex-col">
-                    <label>Entrez Une Quantity:</label>
-                    <input
-                      type="number"
-                      className="w-full px-4 py-2 text-base border border-gray-300 rounded outline-none focus:ring-blue-500 focus:border-blue-500 focus:ring-1"
-                      defaultValue={quantity}
-                      onChange={(e) => setQuantity(parseInt(e.target.value))}
-                    />
-                  </div>
-                  <div className="w-72">
-                    <label>Remise:</label>
-                    <select
-                      className="font-bold p-4"
-                      value={remiseItem}
-                      onChange={handleSelectRemise}
-                    >
-                      <option value="1">0%</option>
-                      <option value="0.95">5%</option>
-                      <option value="0.90">10%</option>
-                    </select>
-                  </div>
-                </div>
-                <Button className="ml-7" type="submit">
-                  Confirm
-                </Button>
-              </form>
-            </DialogContent>
-          </Dialog>
-        </Fragment>
+
         <Box
           sx={{
-            height: 700,
+            height: "auto",
             width: "100%",
             margin: "20px",
             borderRadius: "12px",
@@ -337,7 +296,7 @@ const ListBoisDur: React.FC = () => {
             },
             backgroundColor: "#fff",
             "& .super-app-theme--cell": {
-              backgroundColor: "#ffff1a",
+              backgroundColor: "#D2691E",
               color: "#000",
               fontWeight: "bold",
               fontSize: "18px",

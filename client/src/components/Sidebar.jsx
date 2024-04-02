@@ -26,18 +26,18 @@ const Sidebar = () => {
   return (
     <>
       <div
-        className={`xl:h-[100vh] overflow-hidden fixed xl:static w-[80%] md:w-[40%] lg:w-[30%] xl:w-auto h-full top-0 bg-secondary-100 p-4 flex flex-col justify-between z-50 ${
+        className={`xl:h-[100vh] overflow-hidden bg-white fixed xl:static w-[80%] md:w-[40%] lg:w-[30%] xl:w-auto h-full top-0 p-4 flex flex-col justify-between z-50 ${
           showMenu ? "left-0" : "-left-full"
         } transition-all`}
       >
         <div>
           <div className="flex flex-col items-center">
-            <h1 className="text-center text-xl font-bold text-white mb-2">
-              Daziz <span className="text-orange-400">Wood</span>
+            <h1 className="text-center text-xl font-bold text-black mb-2">
+              Gourd <span className="text-orange-400">Bois</span>
               <span className="text-primary text-4xl">.</span>
             </h1>
             <img
-              src="/dazizwood.jpg"
+              src="/gourdbois.jpg"
               alt="logo-society"
               className="rounded-full cover-fill"
               width="100"
@@ -48,7 +48,7 @@ const Sidebar = () => {
           <ul className="font-bold tracking-wide">
             <li>
               <Link
-                to="/"
+                to="/statistics"
                 className="flex items-center gap-4 py-4 px-4 rounded-lg hover:bg-secondary-900 transition-colors"
               >
                 <RiDashboardLine className="text-primary" /> Statistics
@@ -72,12 +72,12 @@ const Sidebar = () => {
               <ul
                 className={` ${
                   showSubmenu ? "h-auto" : "h-0"
-                } overflow-y-hidden transition-all text-orange-300`}
+                } overflow-y-hidden transition-all text-emerald-500`}
               >
                 <li>
                   <Link
                     to="/list-boisblanc"
-                    className="py-2 px-4 border-l border-gray-500 ml-6 block relative before:w-3 before:h-3 before:absolute before:bg-primary before:rounded-full before:-left-[6.5px] before:top-1/2 before:-translate-y-1/2 before:border-4 before:border-secondary-100 hover:text-white transition-colors"
+                    className="py-2 px-4 border-l border-gray-500 ml-6 block relative before:w-3 before:h-3 before:absolute before:bg-primary before:rounded-full before:-left-[6.5px] before:top-1/2 before:-translate-y-1/2 before:border-4 before:border-secondary-100 hover:text-orange-500 transition-colors"
                   >
                     Bois Blanc
                   </Link>
@@ -85,7 +85,7 @@ const Sidebar = () => {
                 <li>
                   <Link
                     to="/list-boisdur"
-                    className="py-2 px-4 border-l border-gray-500 ml-6 block relative before:w-3 before:h-3 before:absolute before:bg-gray-500 before:rounded-full before:-left-[6.5px] before:top-1/2 before:-translate-y-1/2 before:border-4 before:border-secondary-100 hover:text-white transition-colors"
+                    className="py-2 px-4 border-l border-gray-500 ml-6 block relative before:w-3 before:h-3 before:absolute before:bg-gray-500 before:rounded-full before:-left-[6.5px] before:top-1/2 before:-translate-y-1/2 before:border-4 before:border-secondary-100 hover:text-orange-500 transition-colors"
                   >
                     Bois Dur
                   </Link>
@@ -93,7 +93,7 @@ const Sidebar = () => {
                 <li>
                   <Link
                     to="/list-boisrouge"
-                    className="py-2 px-4 border-l border-gray-500 ml-6 block relative before:w-3 before:h-3 before:absolute before:bg-primary before:rounded-full before:-left-[6.5px] before:top-1/2 before:-translate-y-1/2 before:border-4 before:border-secondary-100 hover:text-white transition-colors"
+                    className="py-2 px-4 border-l border-gray-500 ml-6 block relative before:w-3 before:h-3 before:absolute before:bg-primary before:rounded-full before:-left-[6.5px] before:top-1/2 before:-translate-y-1/2 before:border-4 before:border-secondary-100 hover:text-orange-500 transition-colors"
                   >
                     Bois Rouge
                   </Link>
@@ -101,7 +101,7 @@ const Sidebar = () => {
                 <li>
                   <Link
                     to="/list-contreplaques"
-                    className="py-2 px-4 border-l border-gray-500 ml-6 block relative before:w-3 before:h-3 before:absolute before:bg-primary before:rounded-full before:-left-[6.5px] before:top-1/2 before:-translate-y-1/2 before:border-4 before:border-secondary-100 hover:text-white transition-colors"
+                    className="py-2 px-4 border-l border-gray-500 ml-6 block relative before:w-3 before:h-3 before:absolute before:bg-primary before:rounded-full before:-left-[6.5px] before:top-1/2 before:-translate-y-1/2 before:border-4 before:border-secondary-100 hover:text-orange-500 transition-colors"
                   >
                     Contre-Plaque
                   </Link>
@@ -109,9 +109,25 @@ const Sidebar = () => {
                 <li>
                   <Link
                     to="/list-panneaux"
-                    className="py-2 px-4 border-l border-gray-500 ml-6 block relative before:w-3 before:h-3 before:absolute before:bg-primary before:rounded-full before:-left-[6.5px] before:top-1/2 before:-translate-y-1/2 before:border-4 before:border-secondary-100 hover:text-white transition-colors"
+                    className="py-2 px-4 border-l border-gray-500 ml-6 block relative before:w-3 before:h-3 before:absolute before:bg-primary before:rounded-full before:-left-[6.5px] before:top-1/2 before:-translate-y-1/2 before:border-4 before:border-secondary-100 hover:text-orange-500 transition-colors"
                   >
                     Panneaux
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/list-panneaux"
+                    className="py-2 px-4 border-l border-gray-500 ml-6 block relative before:w-3 before:h-3 before:absolute before:bg-primary before:rounded-full before:-left-[6.5px] before:top-1/2 before:-translate-y-1/2 before:border-4 before:border-secondary-100 hover:text-orange-500 transition-colors"
+                  >
+                    Bardages
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/list-panneaux"
+                    className="py-2 px-4 border-l border-gray-500 ml-6 block relative before:w-3 before:h-3 before:absolute before:bg-primary before:rounded-full before:-left-[6.5px] before:top-1/2 before:-translate-y-1/2 before:border-4 before:border-secondary-100 hover:text-orange-500 transition-colors"
+                  >
+                    Bande Chant
                   </Link>
                 </li>
               </ul>
@@ -136,7 +152,7 @@ const Sidebar = () => {
             </li>
             <li>
               <Link
-                to="/users"
+                to="/list-devis"
                 className="flex items-center gap-4 py-4 px-4 rounded-lg hover:bg-secondary-900 transition-colors"
               >
                 <RiCalendarCheckFill className="text-primary" />

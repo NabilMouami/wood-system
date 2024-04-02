@@ -32,11 +32,17 @@ function UpdContrePlaque() {
   };
   const submitHandler = (e: React.FormEvent) => {
     e.preventDefault();
-    custom_axios.put(`stock/contre-plaque/${Col.id}`, post).then(() => {
-      toast.success("Changement Success !!", {
-        position: "bottom-left",
+    custom_axios
+      .put(`stock/contre-plaque/${Col.id}`, JSON.stringify(post), {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
+      })
+      .then(() => {
+        toast.success("Changement Success !!", {
+          position: "top-right",
+        });
       });
-    });
   };
 
   return (

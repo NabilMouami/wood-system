@@ -1,5 +1,12 @@
 import React, { useState, useEffect, Fragment } from "react";
-import { DataGrid, GridToolbar } from "@mui/x-data-grid";
+import {
+  DataGridPro,
+  GridColDef,
+  GridRowsProp,
+  DataGridProProps,
+} from "@mui/x-data-grid-pro";
+import { DataGridPremium } from "@mui/x-data-grid-premium";
+
 import {
   Button,
   Dialog,
@@ -36,9 +43,15 @@ const ListBoisRouge = () => {
   };
 
   useEffect(() => {
-    custom_axios.get("stock/boisrouges").then((res) => {
-      setListBois(res.data);
-    });
+    custom_axios
+      .get("stock/boisrouge", {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
+      })
+      .then((res) => {
+        setListBois(res.data);
+      });
   }, []);
 
   // function retun number float with his precision to two number after vigule
@@ -164,13 +177,13 @@ const ListBoisRouge = () => {
       field: "long_moyenne",
       headerName: "Long Avg:",
       headerClassName: "super-app-theme--cell",
-      width: 140,
+      width: 120,
     },
     {
       field: "metre_lineare",
-      headerName: "Qte Total:",
+      headerName: "ML:",
       headerClassName: "super-app-theme--cell",
-      width: 120,
+      width: 100,
     },
     {
       field: "volume",
@@ -212,7 +225,7 @@ const ListBoisRouge = () => {
       field: "modification",
       headerName: "Modifications",
       headerClassName: "super-app-theme--cell",
-      width: 420,
+      width: 180,
       renderCell: (params: any) => {
         return (
           <>
@@ -235,6 +248,10 @@ const ListBoisRouge = () => {
       },
     },
   ];
+
+  const getTreeDataPath: DataGridProProps["getTreeDataPath"] = (row) =>
+    row.hierarchy;
+
   return (
     <Fragment>
       <div className="bons">
@@ -249,7 +266,7 @@ const ListBoisRouge = () => {
 
         <Box
           sx={{
-            height: 700,
+            height: "auto",
             width: "100%",
             margin: "20px",
             borderRadius: "12px",
@@ -271,11 +288,10 @@ const ListBoisRouge = () => {
             },
           }}
         >
-          <DataGrid
+          <DataGridPremium
             rows={listBois}
             columns={columns}
             getRowId={(row) => row.id}
-            slots={{ toolbar: GridToolbar }}
             slotProps={{
               toolbar: {
                 showQuickFilter: true,
@@ -284,6 +300,12 @@ const ListBoisRouge = () => {
             }}
             disableDensitySelector
             disableColumnSelector
+            defaultGroupingExpansionDepth={-1}
+            initialState={{
+              rowGrouping: {
+                model: ["n_fardou"],
+              },
+            }}
           />
         </Box>
       </div>

@@ -7,6 +7,8 @@ import {
   ITEM_BOIS_BON,
   RESET_TICKET,
   ITEM_TICKET_BON,
+  ITEM_BOIS_DEVIS,
+  RESET_DEVIS,
 } from "./type";
 
 const detailsAcc = (item) => async (dispatch) => {
@@ -20,6 +22,9 @@ const detailsAcc = (item) => async (dispatch) => {
 const ajouteEnBon = (item) => (dispatch) => {
   dispatch({ type: ITEM_BOIS_BON, payload: item });
 };
+const ajouteEnDevis = (item) => (dispatch) => {
+  dispatch({ type: ITEM_BOIS_DEVIS, payload: item });
+};
 const ajouteEnTicket = (item) => (dispatch) => {
   dispatch({ type: ITEM_TICKET_BON, payload: item });
 };
@@ -31,6 +36,10 @@ const resetBon = () => async (dispatch) => {
   await dispatch({ type: RESET_BON });
   await window.location.reload(true);
 };
+const resetDevis = () => async (dispatch) => {
+  await dispatch({ type: RESET_DEVIS });
+  await window.location.reload(true);
+};
 const resetTicket = () => async (dispatch) => {
   await dispatch({ type: RESET_TICKET });
 };
@@ -39,7 +48,9 @@ export {
   logout,
   detailsAcc,
   ajouteEnBon,
+  ajouteEnDevis,
   ajouteEnTicket,
   resetBon,
+  resetDevis,
   resetTicket,
 };

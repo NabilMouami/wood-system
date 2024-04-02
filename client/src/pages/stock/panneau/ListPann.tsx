@@ -115,7 +115,7 @@ function ListPann() {
   //Delete Bois
   const deleteBois = (id: number) => {
     custom_axios
-      .delete(`stock/panneaux/${id}`, {
+      .delete(`stock/panneau/${id}`, {
         headers: {
           Authorization: "Bearer " + localStorage.getItem("token"),
         },
@@ -143,6 +143,32 @@ function ListPann() {
   }
 
   const columns = [
+    {
+      field: "modification",
+      headerName: "Modifications",
+      headerClassName: "super-app-theme--cell",
+      width: 200,
+      renderCell: (params: any) => {
+        return (
+          <>
+            <button
+              className="collabListEdit"
+              onClick={() => details(params.row)}
+            >
+              Changer
+            </button>
+
+            {/* delete Panneau */}
+            <RiDeleteBin3Fill
+              className="collabListDelete"
+              onClick={() => {
+                popup(params.row.id, params.row.marque);
+              }}
+            />
+          </>
+        );
+      },
+    },
     {
       field: "type",
       headerName: "Type:",
@@ -209,32 +235,6 @@ function ListPann() {
 
       width: 120,
     },
-    {
-      field: "modification",
-      headerName: "Modifications",
-      headerClassName: "super-app-theme--cell",
-      width: 200,
-      renderCell: (params: any) => {
-        return (
-          <>
-            <button
-              className="collabListEdit"
-              onClick={() => details(params.row)}
-            >
-              Changer
-            </button>
-
-            {/* delete Panneau */}
-            <RiDeleteBin3Fill
-              className="collabListDelete"
-              onClick={() => {
-                popup(params.row.id, params.row.marque);
-              }}
-            />
-          </>
-        );
-      },
-    },
   ];
 
   return (
@@ -286,7 +286,7 @@ function ListPann() {
           </Fragment>
           <Box
             sx={{
-              height: 700,
+              height: "auto",
               width: "100%",
               margin: "20px",
               borderRadius: "12px",

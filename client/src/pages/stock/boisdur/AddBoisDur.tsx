@@ -101,7 +101,7 @@ const AddBoisDur: React.FC = () => {
                     </div>
                     <div className="col-span-2 sm:col-span-2">
                       <label className="block text-xl font-bold text-gray-700">
-                        Le Prix Unite:
+                        Le Prix Achat:
                       </label>
                       <input
                         type="number"

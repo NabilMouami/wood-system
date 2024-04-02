@@ -197,7 +197,7 @@ function CreerfctBL() {
       width: 120,
     },
     {
-      field: "prix_unity",
+      field: "prix_vente",
       headerName: "Prix Unite:",
       headerClassName: "super-app-theme--cell",
 
@@ -213,7 +213,7 @@ function CreerfctBL() {
       field: "modification",
       headerName: "Modifications",
       headerClassName: "super-app-theme--cell",
-      width: 420,
+      width: 170,
       renderCell: (params: any) => {
         return (
           <>
@@ -275,7 +275,7 @@ function CreerfctBL() {
         </Fragment>
         <Box
           sx={{
-            height: 700,
+            height: "auto",
             width: "100%",
             margin: "20px",
             borderRadius: "12px",

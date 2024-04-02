@@ -9,7 +9,8 @@ export class Facture {
 
   @Column()
   reglement: string;
-
+  @Column()
+  payer: string;
   @Column({ type: 'double' })
   remise: number;
 

@@ -34,11 +34,11 @@ const Header = () => {
   };
 
   return (
-    <header className="h-[7vh] md:h-[10vh] bg-secondary-100 border-b border-secondary-100 p-8 flex items-center justify-end">
+    <header className="h-[7vh] md:h-[10vh] bg-white border-b border-secondary-100 p-8 flex items-center justify-end">
       <nav className="flex items-center gap-2">
         <Menu
           menuButton={
-            <MenuButton className="relative hover:bg-secondary-100 p-2 rounded-lg text-white">
+            <MenuButton className="relative hover:bg-secondary-100 p-2 rounded-lg text-black">
               <RiTranslate />
             </MenuButton>
           }

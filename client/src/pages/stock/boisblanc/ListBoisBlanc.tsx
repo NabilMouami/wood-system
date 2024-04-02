@@ -166,6 +166,32 @@ const ListBoisBlanc: React.FC = () => {
 
   const columns = [
     {
+      field: "modification",
+      headerName: "Modifications",
+      headerClassName: "super-app-theme--cell",
+      width: 170,
+      renderCell: (params: any) => {
+        return (
+          <>
+            <button
+              className="collabListEdit"
+              onClick={() => details(params.row)}
+            >
+              Changer
+            </button>
+
+            {/* delete a Bois */}
+            <RiDeleteBin3Fill
+              className="collabListDelete"
+              onClick={() => {
+                popup(params.row.id, params.row.marque);
+              }}
+            />
+          </>
+        );
+      },
+    },
+    {
       field: "marque",
       headerName: "Marque:",
       headerClassName: "super-app-theme--cell",
@@ -217,8 +243,8 @@ const ListBoisBlanc: React.FC = () => {
       width: 120,
     },
     {
-      field: "prix_unity",
-      headerName: "Prix Unite:",
+      field: "prix_vente",
+      headerName: "Prix Vente:",
       headerClassName: "super-app-theme--cell",
 
       width: 120,
@@ -228,39 +254,6 @@ const ListBoisBlanc: React.FC = () => {
       headerName: "Date Ajoute:",
       headerClassName: "super-app-theme--cell",
       width: 150,
-    },
-    {
-      field: "modification",
-      headerName: "Modifications",
-      headerClassName: "super-app-theme--cell",
-      width: 420,
-      renderCell: (params: any) => {
-        return (
-          <>
-            {/* update data of collabs */}
-            <button
-              className="collabListEdit"
-              onClick={() => ajouteAuBon(params.row)}
-            >
-              Ajoute au List
-            </button>
-            <button
-              className="collabListEdit"
-              onClick={() => details(params.row)}
-            >
-              Changer
-            </button>
-
-            {/* delete a Bois */}
-            <RiDeleteBin3Fill
-              className="collabListDelete"
-              onClick={() => {
-                popup(params.row.id, params.row.marque);
-              }}
-            />
-          </>
-        );
-      },
     },
   ];
 
@@ -314,7 +307,7 @@ const ListBoisBlanc: React.FC = () => {
         </Fragment>
         <Box
           sx={{
-            height: 700,
+            height: "auto",
             width: "100%",
             margin: "20px",
             borderRadius: "12px",

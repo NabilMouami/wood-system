@@ -83,8 +83,7 @@ function CreerfctCP() {
         quantity *
         rowTable.long *
         rowTable.larg *
-        remiseItem *
-        Math.pow(10, -6),
+        remiseItem,
       remise: remiseItem,
     };
     dispatch(ajouteEnBon(item) as any);
@@ -103,8 +102,6 @@ function CreerfctCP() {
         quantity *
           rowTable.long *
           rowTable.larg *
-          rowTable.epaisseur *
-          Math.pow(10, -6) *
           rowTable.prix_unity *
           remiseItem,
         2

@@ -6,6 +6,7 @@ import reportWebVitals from "./reportWebVitals";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 import { store, persistor } from "./store";
+import "boxicons/css/boxicons.min.css";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement

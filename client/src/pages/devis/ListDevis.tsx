@@ -9,14 +9,14 @@ import { useDispatch } from "react-redux";
 import { detailsAcc } from "../../actions/action";
 import custom_axios from "../../axios/AxiosSetup";
 
-function ListFacture() {
+function ListDevis() {
   const [listProd, setListProd] = useState([]);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
   useEffect(() => {
     custom_axios
-      .get("/facturation/factures", {
+      .get("/devis", {
         headers: {
           Authorization: "Bearer " + localStorage.getItem("token"),
         },
@@ -28,7 +28,7 @@ function ListFacture() {
 
   const details = (dts: any) => {
     dispatch(detailsAcc(dts) as any);
-    navigate("/fct/" + dts.id);
+    navigate("/devis/" + dts.id);
   };
   const columns = [
     {
@@ -54,18 +54,12 @@ function ListFacture() {
     },
     {
       field: "id",
-      headerName: "Num Facture:",
+      headerName: "Num Devis:",
       headerClassName: "super-app-theme--cell",
 
       width: 120,
     },
-    {
-      field: "reglement",
-      headerName: "Reglement:",
-      headerClassName: "super-app-theme--cell",
 
-      width: 120,
-    },
     {
       field: "modification",
       headerName: "Modifications",
@@ -91,36 +85,36 @@ function ListFacture() {
     <Fragment>
       <Fragment>
         <div className="flex justify-center gap-6 m-10">
-          <Link to="/creer-fct-BD">
+          <Link to="/creer-dev-BD">
             <button className="bg-orange-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded h-10">
               Bois Dur
             </button>
           </Link>
-          <Link to="/creer-fct-BL">
+          <Link to="/creer-dev-BL">
             <button className="bg-green-400 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded h-10">
               Bois Blanc
             </button>
           </Link>
-          <Link to="/creer-fct-BR">
+          <Link to="/creer-dev-BR">
             <button className="bg-red-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded h-10">
               Bois Rouge
             </button>
           </Link>
-          <Link to="/creer-fct-CP">
+          <Link to="/creer-dev-CP">
             <button className="bg-green-300 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded h-10">
               Contre Plaque
             </button>
           </Link>
-          <Link to="/creer-fct-PN">
+          <Link to="/creer-dev-PN">
             <button className="bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded h-10">
               Panneaux
             </button>
           </Link>
         </div>
         <div className="m-10 bg-slat-950">
-          <Link to="/creer-facture">
+          <Link to="/creer-devis">
             <Button variant="contained" startIcon={<RiAddCircleLine />}>
-              Facturer
+              Devis
             </Button>
           </Link>
           <Typography
@@ -128,7 +122,7 @@ function ListFacture() {
             color="blue"
             className="text-center font-sans"
           >
-            La List Des Factures:
+            La List Des Devis:
           </Typography>
           <Box
             sx={{
@@ -170,4 +164,4 @@ function ListFacture() {
   );
 }
 
-export default ListFacture;
+export default ListDevis;

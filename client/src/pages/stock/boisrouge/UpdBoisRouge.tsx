@@ -20,7 +20,7 @@ function UpdBoisRouge() {
   const [epaisseur, setEp] = useState(Col.epaisseur);
   const [volume, setVolume] = useState(Col.volume);
   const [prix_unity, setPrix] = useState(Col.prix_unity);
-  const [dateCreation, setDateCreation] = useState(Col.date_creation);
+  const [date_creation, setDateCreation] = useState(Col.date_creation);
 
   const [piece, setPiece] = useState(Col.piece);
   const [long, setLong] = useState(Col.long);
@@ -38,17 +38,23 @@ function UpdBoisRouge() {
     epaisseur,
     volume,
     prix_unity,
-    dateCreation,
+    date_creation,
     long,
     piece,
   };
   const submitHandler = (e: React.FormEvent) => {
     e.preventDefault();
-    custom_axios.put(`stock/boisrouges/${Col.id}`, post).then(() => {
-      toast.success("Changement Success !!", {
-        position: "bottom-left",
+    custom_axios
+      .put(`stock/boisrouge/${Col.id}`, post, {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
+      })
+      .then(() => {
+        toast.success("Changement Success !!", {
+          position: "bottom-left",
+        });
       });
-    });
   };
 
   return (

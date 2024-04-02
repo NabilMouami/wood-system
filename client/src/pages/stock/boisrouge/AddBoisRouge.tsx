@@ -5,7 +5,7 @@ import ListLongLarg from "./ListLongLarg";
 import custom_axios from "../../../axios/AxiosSetup";
 
 const AddBoisRouge: React.FC = () => {
-  const [serviceList, setServiceList] = useState([{ long: 0, larg: 0 }]);
+  const [serviceList, setServiceList] = useState([{ long: 0, piece: 0 }]);
 
   const [post, setPost] = useState<PostBoisRouge>({
     type: "",
@@ -39,7 +39,7 @@ const AddBoisRouge: React.FC = () => {
   };
 
   const handleServiceAdd = () => {
-    setServiceList([...serviceList, { long: 0, larg: 0 }]);
+    setServiceList([...serviceList, { long: 0, piece: 0 }]);
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -51,11 +51,17 @@ const AddBoisRouge: React.FC = () => {
   };
   const submitHandler = (e: React.FormEvent) => {
     e.preventDefault();
-    custom_axios.post("stock/boisrouges", post).then(() => {
-      toast.success("Ajoute Success De Bois Rouge!!", {
-        position: "top-right",
+    custom_axios
+      .post("stock/boisrouge", post, {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
+      })
+      .then(() => {
+        toast.success("Ajoute Success De Bois Rouge!!", {
+          position: "top-right",
+        });
       });
-    });
   };
   return (
     <Fragment>
@@ -284,26 +290,25 @@ const AddBoisRouge: React.FC = () => {
                             </label>
 
                             <input
-                              name="larg"
+                              name="piece"
                               type="number"
-                              id="larg"
-                              value={singleService.larg}
+                              id="piece"
+                              value={singleService.piece}
                               className=" w-full px-4 py-2 text-base border border-gray-300 rounded outline-none focus:ring-blue-500 focus:border-blue-500 focus:ring-1"
                               onChange={(e) => handleServiceChange(e, index)}
                               required
                             />
                           </div>
 
-                          {serviceList.length - 1 === index &&
-                            serviceList.length < 4 && (
-                              <button
-                                type="button"
-                                onClick={handleServiceAdd}
-                                className="add-btn"
-                              >
-                                <span>Ajoute</span>
-                              </button>
-                            )}
+                          {serviceList.length - 1 === index && (
+                            <button
+                              type="button"
+                              onClick={handleServiceAdd}
+                              className="add-btn"
+                            >
+                              <span>Ajoute</span>
+                            </button>
+                          )}
                         </div>
                       </div>
                     ))}

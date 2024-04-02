@@ -22,7 +22,6 @@ import ListBoisBlanc from "./pages/stock/boisblanc/ListBoisBlanc";
 import UpdBoisBlanc from "./pages/stock/boisblanc/UpdBoisBlanc";
 import AddBoisDur from "./pages/stock/boisdur/AddBoisDur";
 import ListBoisDur from "./pages/stock/boisdur/ListBoisDur";
-import ListFacture from "./pages/facture/ListFacture";
 import CreerfctBL from "./pages/facture/CreerfctBL";
 import CreerfctBD from "./pages/facture/CreerfctBD";
 import CreerFacture from "./pages/facture/CreerFacture";
@@ -34,6 +33,20 @@ import ListBoisRouge from "./pages/stock/boisrouge/ListBoisRouge";
 import ListPann from "./pages/stock/panneau/ListPann";
 import AddPann from "./pages/stock/panneau/AddPann";
 import UpdPanneau from "./pages/stock/panneau/UpdPanneau";
+import CreerfctPN from "./pages/facture/CreerfctPN";
+import ListDevis from "./pages/devis/ListDevis";
+import CreerdevBD from "./pages/devis/CreerdevBD";
+import CreerDevis from "./pages/devis/CreerDevis";
+import CreerdevBL from "./pages/devis/CreerdevBL";
+import CreerdevCP from "./pages/devis/CreerdevCP";
+import CreerdevPN from "./pages/devis/CreerdevPN";
+import ListFacture from "./pages/facture/ListFacture";
+import UpdBoisDur from "./pages/stock/boisdur/UpdBoisDur";
+import CreerfctBR from "./pages/facture/CreerfctBR";
+import CreerfsctBRFardou from "./pages/facture/CreerfctBRFardou";
+import UpdContrePlaque from "./pages/stock/contreplaque/UpdContrePlaque";
+import Dashboard from "./pages/Dashboard/Dashboard";
+import UpdBoisRouge from "./pages/stock/boisrouge/UpdBoisRouge";
 
 function App() {
   return (
@@ -49,6 +62,7 @@ function App() {
         <Route path="/registro" element={<Register />} />
         <Route path="/olvide-password" element={<ForgetPassword />} />
         <Route path="/" element={<LayoutAdmin />}>
+          <Route path="statistics" element={<Dashboard />} />
           <Route path="users" element={<ListUsers />} />
           <Route path="ajoute-user" element={<AddUser />} />
           <Route path="changer-user/:id" element={<UpdUser />} />
@@ -63,12 +77,18 @@ function App() {
           //BoisDur:Stock
           <Route path="/ajoute-boisdur" element={<AddBoisDur />} />
           <Route path="/list-boisdur" element={<ListBoisDur />} />
+          <Route path="/changer-boisdur/:id" element={<UpdBoisDur />} />
           //BoisRouge:Stock
           <Route path="/ajoute-boisrouge" element={<AddBoisRouge />} />
           <Route path="/list-boisrouge" element={<ListBoisRouge />} />
+          <Route path="/changer-boisrouge/:id" element={<UpdBoisRouge />} />
           //ContrePlaque:Stock
           <Route path="/ajoute-contre-plaque" element={<AddContrePlaque />} />
           <Route path="/list-contreplaques" element={<ListContrePlaque />} />
+          <Route
+            path="/changer-contreplaque/:id"
+            element={<UpdContrePlaque />}
+          />
           //Panneau:Stock
           <Route path="/ajoute-panneau" element={<AddPann />} />
           <Route path="/list-panneaux" element={<ListPann />} />
@@ -78,7 +98,17 @@ function App() {
           <Route path="/creer-facture" element={<CreerFacture />} />
           <Route path="/creer-fct-BL" element={<CreerfctBL />} />
           <Route path="/creer-fct-BD" element={<CreerfctBD />} />
+          <Route path="/creer-fct-BR" element={<CreerfctBR />} />
+          <Route path="/creer-fct-BR/fardou" element={<CreerfsctBRFardou />} />
           <Route path="/creer-fct-CP" element={<CreerfctCP />} />
+          <Route path="/creer-fct-PN" element={<CreerfctPN />} />
+          //Devis
+          <Route path="/list-devis" element={<ListDevis />} />
+          <Route path="/creer-dev-BD" element={<CreerdevBD />} />
+          <Route path="/creer-dev-BL" element={<CreerdevBL />} />
+          <Route path="/creer-dev-CP" element={<CreerdevCP />} />
+          <Route path="/creer-dev-PN" element={<CreerdevPN />} />
+          <Route path="/creer-devis" element={<CreerDevis />} />
         </Route>
       </Routes>
     </BrowserRouter>

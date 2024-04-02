@@ -9,6 +9,9 @@ import { CreateFactureDto } from './dto/facture.dto';
 import { Client } from 'src/client/entities/client.entity';
 import { BoisBlancService } from 'src/stock/boisblanc/boisblanc.service';
 import { BoisDurService } from 'src/stock/boisdur/boisdur.service';
+import { PanneauService } from 'src/stock/panneau/panneau.service';
+import { ContrePlaqueService } from 'src/stock/contreplaque/contreplaque.service';
+import { BoisRougeService } from 'src/stock/boisrouge/boisrouge.service';
 
 @Injectable()
 export class FactureService {
@@ -21,6 +24,9 @@ export class FactureService {
     @InjectRepository(Client) private clRepository: Repository<Client>,
     private readonly blService: BoisBlancService,
     private readonly bdService: BoisDurService,
+    private readonly brService: BoisRougeService,
+    private readonly pnService: PanneauService,
+    private readonly cpService: ContrePlaqueService,
   ) {}
 
   // factur item bois blanc
@@ -40,7 +46,30 @@ export class FactureService {
     await this.bdService.updatePiecesBois(idbois, createBolDto.pieces);
     return this.fboRepository.save(createBolDto);
   }
-
+  // factur item bois rouge
+  async createFactureBoisRouge(
+    idbois: number,
+    createBolDto: CreateFactureBoisDto,
+  ) {
+    await this.brService.updatePiecesBois(idbois, createBolDto.pieces);
+    return this.fboRepository.save(createBolDto);
+  }
+  // factur item Panneau
+  async createFacturePanneau(
+    idbois: number,
+    createBolDto: CreateFactureBoisDto,
+  ) {
+    await this.pnService.updatePiecesBois(idbois, createBolDto.pieces);
+    return this.fboRepository.save(createBolDto);
+  }
+  // factur item Contre Plaque
+  async createFactureContrePlaque(
+    idbois: number,
+    createBolDto: CreateFactureBoisDto,
+  ) {
+    await this.cpService.updatePiecesBois(idbois, createBolDto.pieces);
+    return this.fboRepository.save(createBolDto);
+  }
   async createFacture(
     iduser: number,
     idclient: number,
@@ -77,9 +106,11 @@ export class FactureService {
         'facture.tva as tva',
         'facture.remise as remise',
         'facture.reglement as reglement',
+        'facture.payer as payer',
         'user.firstName as firstName',
         'user.lastName as lastName',
         'client.fullName as fullName',
+        '(sum(facture_bois.montant_ht) * facture.remise * facture.tva) + sum(facture_bois.montant_ht) as sum',
       ])
       .groupBy('facture.id')
 

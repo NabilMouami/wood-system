@@ -37,6 +37,22 @@ export class FactureController {
     return this.bolService.createFactureBoisDur(id, createUserDto);
   }
   @ApiSecurity('JWT-auth')
+  @Post('/panneau/:id')
+  createFacPN(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() createUserDto: CreateFactureBoisDto,
+  ) {
+    return this.bolService.createFacturePanneau(id, createUserDto);
+  }
+  @ApiSecurity('JWT-auth')
+  @Post('/contre-plaque/:id')
+  createFacCP(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() createUserDto: CreateFactureBoisDto,
+  ) {
+    return this.bolService.createFactureContrePlaque(id, createUserDto);
+  }
+  @ApiSecurity('JWT-auth')
   @Post('/facture/:iduser/:idclient')
   createFacture(
     @Param('iduser', ParseIntPipe) iduser: number,

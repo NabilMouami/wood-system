@@ -17,6 +17,11 @@ import { ContrePlaque } from './stock/contreplaque/entities/contreplaque.entity'
 import { ContrePlaqueModule } from './stock/contreplaque/contreplaque.module';
 import { Panneau } from './stock/panneau/entities/panneau.entity';
 import { PanneauModule } from './stock/panneau/panneau.module';
+import { BoisRouge } from './stock/boisrouge/entities/boisrouge.entity';
+import { BoisRougeModule } from './stock/boisrouge/boisrouge.module';
+import { DevisModule } from './devis/devis.module';
+import { Devis } from './devis/entities/devis.entity';
+import { DevisBois } from './devis/entities/devisbois.entity';
 
 // FIND ALL USERS
 // ADD USER
@@ -46,12 +51,15 @@ import { PanneauModule } from './stock/panneau/panneau.module';
         entities: [
           BoisBlanc,
           BoisDur,
+          BoisRouge,
           ContrePlaque,
           Panneau,
           User,
           Client,
           Facture,
           FactureBois,
+          Devis,
+          DevisBois,
         ],
       }),
     }),
@@ -60,9 +68,11 @@ import { PanneauModule } from './stock/panneau/panneau.module';
     ClientModule,
     BoisBlancModule,
     BoisDurModule,
+    BoisRougeModule,
     ContrePlaqueModule,
     PanneauModule,
     FactureModule,
+    DevisModule,
   ],
 
   controllers: [],

@@ -126,6 +126,32 @@ function ListContrePlaque() {
 
   const columns = [
     {
+      field: "modification",
+      headerName: "Modifications",
+      headerClassName: "super-app-theme--cell",
+      width: 180,
+      renderCell: (params: any) => {
+        return (
+          <>
+            <button
+              className="collabListEdit"
+              onClick={() => details(params.row)}
+            >
+              Changer
+            </button>
+
+            {/* delete a Bois */}
+            <RiDeleteBin3Fill
+              className="collabListDelete"
+              onClick={() => {
+                popup(params.row.id, params.row.marque);
+              }}
+            />
+          </>
+        );
+      },
+    },
+    {
       field: "type",
       headerName: "Type:",
       headerClassName: "super-app-theme--cell",
@@ -189,32 +215,6 @@ function ListContrePlaque() {
       headerName: "Date Ajoute:",
       headerClassName: "super-app-theme--cell",
       width: 130,
-    },
-    {
-      field: "modification",
-      headerName: "Modifications",
-      headerClassName: "super-app-theme--cell",
-      width: 420,
-      renderCell: (params: any) => {
-        return (
-          <>
-            <button
-              className="collabListEdit"
-              onClick={() => details(params.row)}
-            >
-              Changer
-            </button>
-
-            {/* delete a Bois */}
-            <RiDeleteBin3Fill
-              className="collabListDelete"
-              onClick={() => {
-                popup(params.row.id, params.row.marque);
-              }}
-            />
-          </>
-        );
-      },
     },
   ];
 
