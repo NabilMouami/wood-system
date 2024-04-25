@@ -47,6 +47,16 @@ import CreerfsctBRFardou from "./pages/facture/CreerfctBRFardou";
 import UpdContrePlaque from "./pages/stock/contreplaque/UpdContrePlaque";
 import Dashboard from "./pages/Dashboard/Dashboard";
 import UpdBoisRouge from "./pages/stock/boisrouge/UpdBoisRouge";
+import CreerblvBD from "./pages/bonlivr/CreerblvBD";
+import CreerBonLivr from "./pages/bonlivr/CreerBonLivr";
+import ListBonLivrs from "./pages/bonlivr/ListBonLivrs";
+import CreerblvBL from "./pages/bonlivr/CreerblvBL";
+import CreerblvCP from "./pages/bonlivr/CreerblvCP";
+import CreerblvPN from "./pages/bonlivr/CreerblvPN";
+import CreerblvBR from "./pages/bonlivr/CreerblvBR";
+import CreerblvBRFardou from "./pages/bonlivr/CreerblvBRFardou";
+import CreerdevBRFardou from "./pages/devis/CreerdevBRFardou";
+import CreerdevBR from "./pages/devis/CreerdevBR";
 
 function App() {
   return (
@@ -102,10 +112,21 @@ function App() {
           <Route path="/creer-fct-BR/fardou" element={<CreerfsctBRFardou />} />
           <Route path="/creer-fct-CP" element={<CreerfctCP />} />
           <Route path="/creer-fct-PN" element={<CreerfctPN />} />
+          //Bon Livraison
+          <Route path="/list-bonlivraison" element={<ListBonLivrs />} />
+          <Route path="/creer-bonlivraison" element={<CreerBonLivr />} />
+          <Route path="/creer-blv-BD" element={<CreerblvBD />} />
+          <Route path="/creer-blv-BL" element={<CreerblvBL />} />
+          <Route path="/creer-blv-BR" element={<CreerblvBR />} />
+          <Route path="/creer-blv-BR/fardou" element={<CreerblvBRFardou />} />
+          <Route path="/creer-blv-CP" element={<CreerblvCP />} />
+          <Route path="/creer-blv-PN" element={<CreerblvPN />} />
           //Devis
           <Route path="/list-devis" element={<ListDevis />} />
           <Route path="/creer-dev-BD" element={<CreerdevBD />} />
           <Route path="/creer-dev-BL" element={<CreerdevBL />} />
+          <Route path="/creer-dev-BR" element={<CreerdevBR />} />
+          <Route path="/creer-dev-BR/fardou" element={<CreerdevBRFardou />} />
           <Route path="/creer-dev-CP" element={<CreerdevCP />} />
           <Route path="/creer-dev-PN" element={<CreerdevPN />} />
           <Route path="/creer-devis" element={<CreerDevis />} />

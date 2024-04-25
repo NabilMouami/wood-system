@@ -10,15 +10,15 @@ import {
   Link as Linka,
 } from "@mui/material";
 import Box from "@mui/material/Box";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 
-import { ajouteEnBon } from "../../actions/action";
+import { ajouteEnBonLivr } from "../../actions/action";
 
 import { GetContrePlaque } from "../../models/bois/ContrePlaque";
 import custom_axios from "../../axios/AxiosSetup";
-function CreerfctCP() {
+function CreerblvCP() {
   const [open, setOpen] = useState<boolean>(false);
   const [listBois, setListBois] = useState<Array<GetContrePlaque>>([]);
   const [quantity, setQuantity] = useState(0);
@@ -31,7 +31,6 @@ function CreerfctCP() {
   );
   const [numFact, setNumFact] = useState<NumFacture>({ max: 1 });
 
-  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -47,7 +46,7 @@ function CreerfctCP() {
   }, []);
   useEffect(() => {
     custom_axios
-      .get("/facturation/lastid/NumFact", {
+      .get("/bonlivraison/lastid/NumBonLivr", {
         headers: { Authorization: "Bearer " + localStorage.getItem("token") },
       })
       .then((res) => {
@@ -88,7 +87,7 @@ function CreerfctCP() {
         remiseItem,
       remise: remiseItem,
     };
-    dispatch(ajouteEnBon(item) as any);
+    dispatch(ajouteEnBonLivr(item) as any);
     setOpen(!open);
     const data = {
       type: "contreplaque",
@@ -108,11 +107,11 @@ function CreerfctCP() {
           remiseItem,
         2
       ),
-      num_facture: numFact?.max + 1,
+      num_bonlivr: numFact?.max + 1,
       remise: remiseItem,
     };
     custom_axios
-      .post(`/facturation/contre-plaque/${rowTable.id}`, data, {
+      .post(`/bonlivraison/contre-plaque/${rowTable.id}`, data, {
         headers: {
           Authorization: "Bearer " + localStorage.getItem("token"),
         },
@@ -132,6 +131,25 @@ function CreerfctCP() {
   };
 
   const columns = [
+    {
+      field: "modification",
+      headerName: "Modifications",
+      headerClassName: "super-app-theme--cell",
+      width: 200,
+      renderCell: (params: any) => {
+        return (
+          <>
+            {/* update data of collabs */}
+            <button
+              className="collabListEdit"
+              onClick={() => ajouteAuBon(params.row)}
+            >
+              Ajoute au Bon
+            </button>
+          </>
+        );
+      },
+    },
     {
       field: "type",
       headerName: "Type:",
@@ -197,48 +215,29 @@ function CreerfctCP() {
       headerClassName: "super-app-theme--cell",
       width: 130,
     },
-    {
-      field: "modification",
-      headerName: "Modifications",
-      headerClassName: "super-app-theme--cell",
-      width: 200,
-      renderCell: (params: any) => {
-        return (
-          <>
-            {/* update data of collabs */}
-            <button
-              className="collabListEdit"
-              onClick={() => ajouteAuBon(params.row)}
-            >
-              Ajoute au Fucture
-            </button>
-          </>
-        );
-      },
-    },
   ];
 
   return (
     <Fragment>
       <div className="">
         <div
-          className="w-[340px] p-4 mb-8 shadow-xl bg-white rounded-2xl"
+          className="w-[450px] p-4 mb-8 shadow-xl bg-white rounded-2xl"
           role="presentation"
         >
           <Breadcrumbs aria-label="breadcrumb">
-            <Link to="/list-factures">
+            <Link to="/list-bonlivraison">
               <Linka className="text-2xl" underline="hover" color="inherit">
-                Facteur
+                Bon Livraison
               </Linka>
             </Link>
-            <Link to="/creer-facture">
+            <Link to="/creer-bonlivraison">
               <Linka underline="hover" color="inherit">
-                Creer Facteur
+                Creer Bon Livraison
               </Linka>
             </Link>
 
             <Linka underline="hover" color="text.primary" aria-current="page">
-              Contre-Plaque
+              Contre Plaque
             </Linka>
           </Breadcrumbs>
         </div>
@@ -249,7 +248,7 @@ function CreerfctCP() {
         </div>
         <Fragment>
           <Dialog onClose={() => setOpen(!open)} open={open}>
-            <DialogTitle>Ajoute Item en Facture.</DialogTitle>
+            <DialogTitle>Ajoute Item en Bon Livraison.</DialogTitle>
             <DialogContent>
               <form onSubmit={handleSubmitBon}>
                 <div className="flex justify-around items-center mb-5 font-bold">
@@ -326,4 +325,4 @@ function CreerfctCP() {
   );
 }
 
-export default CreerfctCP;
+export default CreerblvCP;

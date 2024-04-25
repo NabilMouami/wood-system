@@ -21,6 +21,7 @@ export interface GetBoisBlanc {
   larg: number;
   epaisseur: number;
   volume: number;
-  prix_unity: number;
+  prix_achat: number;
+  prix_vente: number;
   date_creation: string;
 }

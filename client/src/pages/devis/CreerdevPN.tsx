@@ -6,13 +6,16 @@ import {
   DialogTitle,
   DialogContent,
   Typography,
+  Breadcrumbs,
+  Link as Linka,
 } from "@mui/material";
 import Box from "@mui/material/Box";
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
+
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 
-import { ajouteEnBon } from "../../actions/action";
+import { ajouteEnDevis } from "../../actions/action";
 
 import custom_axios from "../../axios/AxiosSetup";
 import { GetPanneau } from "../../models/bois/Panneau";
@@ -20,14 +23,12 @@ function CreerdevPN() {
   const [open, setOpen] = useState<boolean>(false);
   const [listBois, setListBois] = useState<Array<GetPanneau>>([]);
   const [quantity, setQuantity] = useState(0);
-  const [remiseItem, setRemiseItem] = useState(1);
   interface NumFacture {
     max: number;
   }
   const [rowTable, setRowTable] = useState<GetPanneau>({} as GetPanneau);
   const [numFact, setNumFact] = useState<NumFacture>({ max: 1 });
 
-  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -60,10 +61,7 @@ function CreerdevPN() {
   const ajouteAuBon = (row: any) => {
     setOpen(!open);
     setRowTable(row);
-    setQuantity(row.pieces);
-  };
-  const handleSelectRemise = (e: any) => {
-    setRemiseItem(e.target.value);
+    setQuantity(row.piece_total);
   };
 
   const handleSubmitBon = (e: React.FormEvent) => {
@@ -77,13 +75,9 @@ function CreerdevPN() {
       unity: "M2",
       prix_unity: rowTable.prix_unity,
       prix_total:
-        rowTable.prix_unity *
-        quantity *
-        rowTable.long *
-        rowTable.larg *
-        Math.pow(10, -6),
+        rowTable.prix_unity * quantity * rowTable.long * rowTable.larg,
     };
-    dispatch(ajouteEnBon(item) as any);
+    dispatch(ajouteEnDevis(item) as any);
     setOpen(!open);
     const data = {
       type: "panneau",
@@ -96,15 +90,10 @@ function CreerdevPN() {
 
       prix_ht: rowTable.prix_unity,
       montant_ht: toPrecision(
-        quantity *
-          rowTable.long *
-          rowTable.larg *
-          rowTable.epaisseur *
-          Math.pow(10, -6) *
-          rowTable.prix_unity,
+        quantity * rowTable.long * rowTable.larg * rowTable.prix_unity,
         2
       ),
-      num_facture: numFact?.max + 1,
+      num_devis: numFact?.max + 1,
     };
     custom_axios
       .post("/devis/panneau/", data, {
@@ -120,6 +109,25 @@ function CreerdevPN() {
   };
 
   const columns = [
+    {
+      field: "modification",
+      headerName: "Modifications",
+      headerClassName: "super-app-theme--cell",
+      width: 200,
+      renderCell: (params: any) => {
+        return (
+          <>
+            {/* update data of collabs */}
+            <button
+              className="collabListEdit"
+              onClick={() => ajouteAuBon(params.row)}
+            >
+              Ajoute au Devis
+            </button>
+          </>
+        );
+      },
+    },
     {
       field: "type",
       headerName: "Type:",
@@ -186,30 +194,32 @@ function CreerdevPN() {
 
       width: 120,
     },
-    {
-      field: "modification",
-      headerName: "Modifications",
-      headerClassName: "super-app-theme--cell",
-      width: 200,
-      renderCell: (params: any) => {
-        return (
-          <>
-            {/* update data of collabs */}
-            <button
-              className="collabListEdit"
-              onClick={() => ajouteAuBon(params.row)}
-            >
-              Ajoute au Fucture
-            </button>
-          </>
-        );
-      },
-    },
   ];
 
   return (
     <Fragment>
       <div className="">
+        <div
+          className="w-[300px] p-4 mb-8 shadow-xl bg-white rounded-2xl"
+          role="presentation"
+        >
+          <Breadcrumbs aria-label="breadcrumb">
+            <Link to="/list-devis">
+              <Linka className="text-2xl" underline="hover" color="inherit">
+                Devis
+              </Linka>
+            </Link>
+            <Link to="/creer-devis">
+              <Linka underline="hover" color="inherit">
+                Creer Devis
+              </Linka>
+            </Link>
+
+            <Linka underline="hover" color="text.primary" aria-current="page">
+              Panneau
+            </Linka>
+          </Breadcrumbs>
+        </div>
         <div className="ml-6 grid gap-10">
           <Typography className="mt-8" variant="h4" color="gray">
             List Des Panneaux En Stock:
@@ -217,7 +227,7 @@ function CreerdevPN() {
         </div>
         <Fragment>
           <Dialog onClose={() => setOpen(!open)} open={open}>
-            <DialogTitle>Ajoute Item en Facture.</DialogTitle>
+            <DialogTitle>Ajoute Item en Devis.</DialogTitle>
             <DialogContent>
               <form onSubmit={handleSubmitBon}>
                 <div className="flex justify-around items-center mb-5 font-bold">
@@ -230,18 +240,6 @@ function CreerdevPN() {
                       onChange={(e) => setQuantity(parseInt(e.target.value))}
                     />
                   </div>
-                  <div className="w-72 m-6">
-                    <label>Remise:</label>
-                    <select
-                      className="font-bold p-4"
-                      value={remiseItem}
-                      onChange={handleSelectRemise}
-                    >
-                      <option value="1">0%</option>
-                      <option value="0.95">5%</option>
-                      <option value="0.90">10%</option>
-                    </select>
-                  </div>
                 </div>
                 <Button className="ml-7" type="submit">
                   Confirm
@@ -252,7 +250,7 @@ function CreerdevPN() {
         </Fragment>
         <Box
           sx={{
-            height: 700,
+            height: "auto",
             width: "100%",
             margin: "20px",
             borderRadius: "12px",

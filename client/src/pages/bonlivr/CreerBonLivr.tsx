@@ -12,9 +12,9 @@ import { getLoginInfo } from "../../utils/LoginInfo";
 interface NumFacture {
   max: number;
 }
-function CreerDevis() {
+function CreerBonLivr() {
   const Bon = useSelector((state: any) => state.Bon);
-  const { devis } = Bon;
+  const { cart } = Bon;
   const userId = getLoginInfo()?.userId;
   const firstName = getLoginInfo()?.firstName;
   const lastName = getLoginInfo()?.lastName;
@@ -26,8 +26,9 @@ function CreerDevis() {
   const [dateCreation, setDateCreation] = useState<string>("");
   const [totalBon, setTotalBon] = useState<number>(0);
   const [reglement, setReglement] = useState("espece");
+  const [payer, setPayer] = useState("payer");
+
   const [remise, setRemise] = useState(1);
-  const [tva, setTva] = useState(0.2);
 
   const dispatch = useDispatch();
   const componentRef1: any = useRef();
@@ -45,9 +46,6 @@ function CreerDevis() {
   }
   const handleSelectRemise = (e: any) => {
     setRemise(e.target.value);
-  };
-  const handleSelectTva = (e: any) => {
-    setTva(e.target.value);
   };
 
   useEffect(() => {
@@ -75,7 +73,7 @@ function CreerDevis() {
   }, []);
   useEffect(() => {
     custom_axios
-      .get("/devis/lastid/NumDev", {
+      .get("/bonlivraison/lastid/NumBonLivr", {
         headers: { Authorization: "Bearer " + localStorage.getItem("token") },
       })
       .then((res) => {
@@ -109,6 +107,9 @@ function CreerDevis() {
   const handleSelectRegl = (e: any) => {
     setReglement(e.target.value);
   };
+  const handleSelectPayer = (e: any) => {
+    setPayer(e.target.value);
+  };
   const handleSubmitBon = (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -117,25 +118,25 @@ function CreerDevis() {
     }
     const data2 = {
       reglement: reglement,
+      payer: payer,
       remise: remise,
-      tva: tva,
       date_creation: dateCreation,
     };
     console.log(data2);
     custom_axios
-      .post(`/devis/${userId}/${clientId}`, data2, {
+      .post(`/bonlivraison/${userId}/${clientId}`, data2, {
         headers: {
           Authorization: "Bearer " + localStorage.getItem("token"),
         },
       })
       .then((res) => {
-        toast.success("Success Devis!!");
+        toast.success("Enregistre Bon Livraison!!");
       });
   };
   return (
     <div className="bg-[#E6E6FA] font-sans">
       <Typography variant="h1" color="blue-gray" className="text-center">
-        Creation Devis Pour Un Client.
+        Creation BonLivraison Pour Un Client.
       </Typography>
       <form
         onSubmit={handleSubmitBon}
@@ -159,6 +160,35 @@ function CreerDevis() {
               setDateCreation(e.target.value);
             }}
           />
+        </div>
+        <div className="flex flex-col gap-6">
+          <label className="font-bold text-xl mr-2">Reglement:</label>
+
+          <select value={reglement} onChange={handleSelectRegl}>
+            <option value="espece">Espece</option>
+            <option value="credit">Cridet</option>
+            <option value="effet">Effet</option>
+            <option value="check">Check</option>
+          </select>
+        </div>
+        <div className="flex flex-col gap-6">
+          <label className="font-bold text-xl mr-2">Payer/Non-Payer:</label>
+          <select value={payer} onChange={handleSelectPayer}>
+            <option value="payer">Payer</option>
+            <option value="non-payer">Non-Payer</option>
+          </select>
+        </div>
+        <div className="flex flex-col gap-4">
+          <label className="font-bold text-xl mr-2">Remise:</label>
+          <select
+            className="font-bold"
+            value={remise}
+            onChange={handleSelectRemise}
+          >
+            <option value="1">0%</option>
+            <option value="0.95">5%</option>
+            <option value="0.90">10%</option>
+          </select>
         </div>
 
         <div className="bg-gray-50 px-4 py-3 text-right sm:px-6">
@@ -191,7 +221,7 @@ function CreerDevis() {
             color="red"
             className="text-center underline"
           >
-            Devis:
+            Bon Livraison:
           </Typography>
 
           <div className="flex items-center justify-around">
@@ -230,7 +260,8 @@ function CreerDevis() {
                 <span className="font-bold">Date Creation:</span> {dateCreation}
               </p>
               <p>
-                <span className="font-bold">Devis Nº:</span> {numFact?.max + 1}
+                <span className="font-bold">Bon Livraison Nº:</span>{" "}
+                {numFact?.max + 1}
               </p>
             </div>
           </div>
@@ -246,7 +277,7 @@ function CreerDevis() {
                 <td className="font-bold">Montant</td>
               </tr>
             </thead>
-            {devis?.map(
+            {cart.map(
               ({
                 classbois,
                 type,
@@ -267,8 +298,10 @@ function CreerDevis() {
                       <td>
                         {toPrecision(quantity, 2)} {unity}
                       </td>
-                      <td>{prix_unity}</td>
-                      <td className="amount1">{toPrecision(prix_total, 2)}</td>
+                      <td>{prix_unity}dh</td>
+                      <td className="amount1">
+                        {toPrecision(prix_total, 2)}dh
+                      </td>
                     </tr>
                   </tbody>
                 </Fragment>
@@ -276,10 +309,29 @@ function CreerDevis() {
             )}
           </table>
           <hr className="text-black w-full" />
-
+          <div className="flex items-start justify-start text-gray-800 text-xl font-bold">
+            <p>Reglement: {reglement}</p>
+          </div>
           <div>
             <h2 className="flex items-end justify-end text-gray-800 text-xl font-bold">
               Total Brut: {totalBon.toLocaleString()} Dh.
+            </h2>
+            {remise < 1 ? (
+              <>
+                <h2 className="flex items-end justify-end text-gray-800 text-xl font-bold">
+                  Remise : {remise === 0.95 ? <>5%</> : <>10%</>}{" "}
+                </h2>
+                <h2 className="flex items-end justify-end text-gray-800 text-xl font-bold">
+                  Total Nut : {(totalBon * remise).toLocaleString()} Dh.
+                </h2>
+              </>
+            ) : (
+              <></>
+            )}
+
+            <h2 className="flex items-end justify-end text-gray-800 text-xl font-bold">
+              Net a payer TTC: {(totalBon * remise + totalBon).toLocaleString()}{" "}
+              Dh.
             </h2>
           </div>
         </div>
@@ -288,4 +340,4 @@ function CreerDevis() {
   );
 }
 
-export default CreerDevis;
+export default CreerBonLivr;

@@ -35,10 +35,22 @@ export class BoisRougeService {
   updateBois(id: number, updateUserDetails: CreateBoisRougeDto) {
     return this.boisrougeRepository.update({ id }, { ...updateUserDetails });
   }
-  updatePiecesBois(id: number, pieces: number) {
-    return this.boisrougeRepository.update({ id: id }, { pieces: pieces });
+  updatePiecesBois(id: number, pieces: number, piece: number) {
+    this.boisrougeRepository.update(
+      { id: id },
+      { pieces: pieces, piece: piece },
+    );
+  }
+  updateMLBois(n_fardou: string, metre_lineare: number) {
+    this.boisrougeRepository.update(
+      { n_fardou: n_fardou },
+      { metre_lineare: metre_lineare },
+    );
   }
   remove(id: number) {
     return this.boisrougeRepository.delete(id);
+  }
+  removeFardou(n_fardou: string) {
+    return this.boisrougeRepository.delete({ n_fardou: n_fardou });
   }
 }

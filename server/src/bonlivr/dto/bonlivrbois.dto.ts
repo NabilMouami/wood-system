@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsNumber, IsString } from 'class-validator';
 
-export class CreateFactureBoisDto {
+export class CreateBonLivrBoisDto {
   //
   @ApiProperty()
   @IsString()
@@ -38,7 +38,7 @@ export class CreateFactureBoisDto {
   @ApiProperty()
   remise: number;
 }
-export class CreateFactureBoisRougeDto {
+export class CreateBonLivrBoisRougeDto {
   //
   @ApiProperty()
   @IsString()
@@ -77,7 +77,7 @@ export class CreateFactureBoisRougeDto {
   montant_ht: number;
 
   @ApiProperty()
-  num_facture: number;
+  num_bonlivr: number;
 
   @ApiProperty()
   remise: number;

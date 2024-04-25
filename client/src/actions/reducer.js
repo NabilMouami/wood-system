@@ -9,6 +9,8 @@ import {
   ITEM_TICKET_BON,
   ITEM_BOIS_DEVIS,
   RESET_DEVIS,
+  ITEM_BOIS_BONLIVR,
+  RESET_BONLIVR,
 } from "./type";
 
 function userSigninReducer(state = {}, action) {
@@ -36,6 +38,7 @@ const initialState = {
   cart: [],
   tickets: [],
   devis: [],
+  bonlivr: [],
 };
 function BonLivrReducer(state = initialState, action) {
   switch (action.type) {
@@ -44,6 +47,11 @@ function BonLivrReducer(state = initialState, action) {
         //cart: [...state.cart, action.payload],
         ...state,
         cart: [...state.cart, action.payload],
+      };
+    case ITEM_BOIS_BONLIVR:
+      return {
+        ...state,
+        bonlivr: [...state.bonlivr, action.payload],
       };
     case ITEM_BOIS_DEVIS:
       return {
@@ -58,6 +66,8 @@ function BonLivrReducer(state = initialState, action) {
       };
     case RESET_BON:
       return { ...state, cart: [] };
+    case RESET_BONLIVR:
+      return { ...state, bonlivr: [] };
     case RESET_DEVIS:
       return { ...state, devis: [] };
     case RESET_TICKET:

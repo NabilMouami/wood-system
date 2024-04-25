@@ -10,33 +10,34 @@ import {
   Link as Linka,
 } from "@mui/material";
 import Box from "@mui/material/Box";
-import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
+import { Link } from "react-router-dom";
+import { ajouteEnBonLivr } from "../../actions/action";
 
-import { ajouteEnBon } from "../../actions/action";
-
-import { GetContrePlaque } from "../../models/bois/ContrePlaque";
+import { GetBoisDur } from "../../models/bois/BoisDur";
 import custom_axios from "../../axios/AxiosSetup";
-function CreerfctCP() {
+
+function CreerblvBD() {
   const [open, setOpen] = useState<boolean>(false);
-  const [listBois, setListBois] = useState<Array<GetContrePlaque>>([]);
+  const [listBois, setListBois] = useState<Array<GetBoisDur>>([]);
   const [quantity, setQuantity] = useState(0);
   const [remiseItem, setRemiseItem] = useState(1);
   interface NumFacture {
     max: number;
   }
-  const [rowTable, setRowTable] = useState<GetContrePlaque>(
-    {} as GetContrePlaque
-  );
+  const [rowTable, setRowTable] = useState<GetBoisDur>({} as GetBoisDur);
   const [numFact, setNumFact] = useState<NumFacture>({ max: 1 });
 
-  const navigate = useNavigate();
   const dispatch = useDispatch();
+  function handleClick(event: React.MouseEvent<HTMLDivElement, MouseEvent>) {
+    event.preventDefault();
+    console.info("You clicked a breadcrumb.");
+  }
 
   useEffect(() => {
     custom_axios
-      .get("/stock/contre-plaque", {
+      .get("/stock/boisdur", {
         headers: {
           Authorization: "Bearer " + localStorage.getItem("token"),
         },
@@ -47,7 +48,7 @@ function CreerfctCP() {
   }, []);
   useEffect(() => {
     custom_axios
-      .get("/facturation/lastid/NumFact", {
+      .get("/bonlivraison/lastid/NumBonLivr", {
         headers: { Authorization: "Bearer " + localStorage.getItem("token") },
       })
       .then((res) => {
@@ -73,46 +74,62 @@ function CreerfctCP() {
   const handleSubmitBon = (e: React.FormEvent) => {
     e.preventDefault();
     const item = {
-      classbois: "contreplaque",
+      classbois: "boisdur",
       type: rowTable.marque,
       pieces: quantity,
       long: rowTable.long,
-      quantity: quantity * rowTable.long * rowTable.larg,
-      unity: "M2",
-      prix_unity: rowTable.prix_unity,
-      prix_total:
-        rowTable.prix_unity *
+      quantity:
         quantity *
         rowTable.long *
         rowTable.larg *
-        remiseItem,
+        rowTable.epaisseur *
+        Math.pow(10, -6),
+      unity: "M3",
+      prix_unity: rowTable.prix_vente,
+      prix_total:
+        rowTable.prix_vente *
+        quantity *
+        rowTable.long *
+        rowTable.larg *
+        rowTable.epaisseur *
+        remiseItem *
+        Math.pow(10, -6),
       remise: remiseItem,
     };
-    dispatch(ajouteEnBon(item) as any);
+    dispatch(ajouteEnBonLivr(item) as any);
     setOpen(!open);
     const data = {
-      type: "contreplaque",
+      type: "boisdur",
       designation: rowTable.marque,
       qte: quantity,
       pieces: rowTable.pieces - quantity,
-      quantity: toPrecision(quantity * rowTable.long * rowTable.larg, 2),
+      quantity: toPrecision(
+        quantity *
+          rowTable.long *
+          rowTable.larg *
+          rowTable.epaisseur *
+          Math.pow(10, -6),
+        2
+      ),
       long: rowTable.long,
-      unity: "M2",
+      unity: "M3",
 
-      prix_ht: rowTable.prix_unity,
+      prix_ht: rowTable.prix_vente,
       montant_ht: toPrecision(
         quantity *
           rowTable.long *
           rowTable.larg *
-          rowTable.prix_unity *
+          rowTable.epaisseur *
+          Math.pow(10, -6) *
+          rowTable.prix_vente *
           remiseItem,
         2
       ),
-      num_facture: numFact?.max + 1,
+      num_bonlivr: numFact?.max + 1,
       remise: remiseItem,
     };
     custom_axios
-      .post(`/facturation/contre-plaque/${rowTable.id}`, data, {
+      .post(`/bonlivraison/boisdur/${rowTable.id}`, data, {
         headers: {
           Authorization: "Bearer " + localStorage.getItem("token"),
         },
@@ -133,18 +150,30 @@ function CreerfctCP() {
 
   const columns = [
     {
-      field: "type",
-      headerName: "Type:",
+      field: "modification",
+      headerName: "Modifications",
       headerClassName: "super-app-theme--cell",
-
-      width: 140,
+      width: 180,
+      renderCell: (params: any) => {
+        return (
+          <>
+            {/* update data of collabs */}
+            <button
+              className="collabListEdit"
+              onClick={() => ajouteAuBon(params.row)}
+            >
+              Ajoute au Bon
+            </button>
+          </>
+        );
+      },
     },
     {
       field: "marque",
       headerName: "Marque:",
       headerClassName: "super-app-theme--cell",
 
-      width: 140,
+      width: 150,
     },
     {
       field: "fornisseur",
@@ -154,17 +183,17 @@ function CreerfctCP() {
       width: 130,
     },
     {
-      field: "face",
-      headerName: "Face:",
+      field: "n_fardou",
+      headerName: "Num Fardou:",
       headerClassName: "super-app-theme--cell",
 
-      width: 100,
+      width: 140,
     },
     {
       field: "pieces",
       headerName: "Piece Total:",
       headerClassName: "super-app-theme--cell",
-      width: 120,
+      width: 130,
     },
     {
       field: "long",
@@ -176,45 +205,39 @@ function CreerfctCP() {
       field: "larg",
       headerName: "Largeur:",
       headerClassName: "super-app-theme--cell",
-      width: 100,
+      width: 120,
     },
     {
       field: "epaisseur",
       headerName: "Epaisseur:",
       headerClassName: "super-app-theme--cell",
-      width: 100,
+      width: 120,
     },
     {
-      field: "prix_unity",
-      headerName: "Prix Unite:",
+      field: "volume",
+      headerName: "Volume Fardou:",
+      headerClassName: "super-app-theme--cell",
+      width: 120,
+    },
+    {
+      field: "prix_achat",
+      headerName: "Prix Achat:",
       headerClassName: "super-app-theme--cell",
 
-      width: 100,
+      width: 120,
+    },
+    {
+      field: "prix_vente",
+      headerName: "Prix Vente:",
+      headerClassName: "super-app-theme--cell",
+
+      width: 120,
     },
     {
       field: "date_creation",
       headerName: "Date Ajoute:",
       headerClassName: "super-app-theme--cell",
-      width: 130,
-    },
-    {
-      field: "modification",
-      headerName: "Modifications",
-      headerClassName: "super-app-theme--cell",
-      width: 200,
-      renderCell: (params: any) => {
-        return (
-          <>
-            {/* update data of collabs */}
-            <button
-              className="collabListEdit"
-              onClick={() => ajouteAuBon(params.row)}
-            >
-              Ajoute au Fucture
-            </button>
-          </>
-        );
-      },
+      width: 140,
     },
   ];
 
@@ -222,34 +245,35 @@ function CreerfctCP() {
     <Fragment>
       <div className="">
         <div
-          className="w-[340px] p-4 mb-8 shadow-xl bg-white rounded-2xl"
+          className="w-[400px] p-4 mb-8 shadow-xl bg-white rounded-2xl"
           role="presentation"
+          onClick={handleClick}
         >
           <Breadcrumbs aria-label="breadcrumb">
-            <Link to="/list-factures">
+            <Link to="/list-bonlivraison">
               <Linka className="text-2xl" underline="hover" color="inherit">
-                Facteur
+                Bon Livraison
               </Linka>
             </Link>
-            <Link to="/creer-facture">
+            <Link to="/creer-bonlivraison">
               <Linka underline="hover" color="inherit">
-                Creer Facteur
+                Creer Bon Livraison
               </Linka>
             </Link>
 
             <Linka underline="hover" color="text.primary" aria-current="page">
-              Contre-Plaque
+              Bois Dur
             </Linka>
           </Breadcrumbs>
         </div>
         <div className="ml-6 grid gap-10">
           <Typography className="mt-8" variant="h4" color="gray">
-            List Des Contres Plaques En Stock:
+            List Des Bois Dur En Stock:
           </Typography>
         </div>
         <Fragment>
           <Dialog onClose={() => setOpen(!open)} open={open}>
-            <DialogTitle>Ajoute Item en Facture.</DialogTitle>
+            <DialogTitle>Ajoute Item en Bon.</DialogTitle>
             <DialogContent>
               <form onSubmit={handleSubmitBon}>
                 <div className="flex justify-around items-center mb-5 font-bold">
@@ -299,8 +323,9 @@ function CreerfctCP() {
             },
             backgroundColor: "#fff",
             "& .super-app-theme--cell": {
-              backgroundColor: "#1ad1ff",
+              backgroundColor: "#D2691E",
               color: "#000",
+              fontWeight: "bold",
               fontSize: "18px",
               fontFamily: "cursive",
             },
@@ -326,4 +351,4 @@ function CreerfctCP() {
   );
 }
 
-export default CreerfctCP;
+export default CreerblvBD;

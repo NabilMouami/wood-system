@@ -6,9 +6,11 @@ import {
   DialogTitle,
   DialogContent,
   Typography,
+  Breadcrumbs,
+  Link as Linka,
 } from "@mui/material";
 import Box from "@mui/material/Box";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 
@@ -219,6 +221,27 @@ function CreerfctPN() {
   return (
     <Fragment>
       <div className="">
+        <div
+          className="w-[340px] p-4 mb-8 shadow-xl bg-white rounded-2xl"
+          role="presentation"
+        >
+          <Breadcrumbs aria-label="breadcrumb">
+            <Link to="/list-factures">
+              <Linka className="text-2xl" underline="hover" color="inherit">
+                Facteur
+              </Linka>
+            </Link>
+            <Link to="/creer-facture">
+              <Linka underline="hover" color="inherit">
+                Creer Facteur
+              </Linka>
+            </Link>
+
+            <Linka underline="hover" color="text.primary" aria-current="page">
+              Panneau
+            </Linka>
+          </Breadcrumbs>
+        </div>
         <div className="ml-6 grid gap-10">
           <Typography className="mt-8" variant="h4" color="gray">
             List Des Panneaux En Stock:

@@ -4,9 +4,13 @@ import { Repository } from 'typeorm';
 import { DevisBois } from './entities/devisbois.entity';
 import { Devis } from './entities/devis.entity';
 import { User } from 'src/user/entities/user.entity';
-import { CreateDevisBoisDto } from './dto/devisbois.dto';
 import { CreateDevisDto } from './dto/devis.dto';
 import { Client } from 'src/client/entities/client.entity';
+
+import {
+  CreateDevisBoisDto,
+  CreateDevisBoisRougeDto,
+} from './dto/devisbois.dto';
 
 @Injectable()
 export class DevisService {
@@ -21,6 +25,18 @@ export class DevisService {
   async createDevisBoisDur(createBolDto: CreateDevisBoisDto) {
     return this.fboRepository.save(createBolDto);
   }
+  async createDevisBoisBlanc(createBolDto: CreateDevisBoisDto) {
+    return this.fboRepository.save(createBolDto);
+  }
+  // factur item bois rouge
+  async createDevisBoisRouge(createBolDto: CreateDevisBoisRougeDto) {
+    return this.fboRepository.save(createBolDto);
+  }
+  // facture Fardou bois rouge
+  async createDevisBoisRougeFardou(createBolDto: CreateDevisBoisRougeDto) {
+    return this.fboRepository.save(createBolDto);
+  }
+
   async createDevisContrePlaque(createBolDto: CreateDevisBoisDto) {
     return this.fboRepository.save(createBolDto);
   }

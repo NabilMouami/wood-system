@@ -78,9 +78,9 @@ const ListBoisBlanc: React.FC = () => {
         rowTable.epaisseur *
         Math.pow(10, -6),
       unity: "M3",
-      prix_unity: rowTable.prix_unity,
+      prix_unity: rowTable.prix_vente,
       prix_total:
-        rowTable.prix_unity *
+        rowTable.prix_vente *
         quantity *
         rowTable.long *
         rowTable.larg *
@@ -104,14 +104,14 @@ const ListBoisBlanc: React.FC = () => {
         2
       ),
       qte: quantity,
-      prix_unity: rowTable.prix_unity,
+      prix_unity: rowTable.prix_vente,
       prix_total: toPrecision(
         quantity *
           rowTable.long *
           rowTable.larg *
           rowTable.epaisseur *
           Math.pow(10, -6) *
-          rowTable.prix_unity *
+          rowTable.prix_vente *
           remiseItem,
         2
       ),

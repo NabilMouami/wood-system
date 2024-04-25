@@ -6,9 +6,11 @@ import {
   DialogTitle,
   DialogContent,
   Typography,
+  Breadcrumbs,
+  Link as Linka,
 } from "@mui/material";
 import Box from "@mui/material/Box";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 
@@ -135,6 +137,25 @@ function CreerdevBD() {
 
   const columns = [
     {
+      field: "modification",
+      headerName: "Modifications",
+      headerClassName: "super-app-theme--cell",
+      width: 190,
+      renderCell: (params: any) => {
+        return (
+          <>
+            {/* update data of collabs */}
+            <button
+              className="collabListEdit"
+              onClick={() => ajouteAuBon(params.row)}
+            >
+              Ajoute au Devis
+            </button>
+          </>
+        );
+      },
+    },
+    {
       field: "marque",
       headerName: "Marque:",
       headerClassName: "super-app-theme--cell",
@@ -205,30 +226,32 @@ function CreerdevBD() {
       headerClassName: "super-app-theme--cell",
       width: 140,
     },
-    {
-      field: "modification",
-      headerName: "Modifications",
-      headerClassName: "super-app-theme--cell",
-      width: 190,
-      renderCell: (params: any) => {
-        return (
-          <>
-            {/* update data of collabs */}
-            <button
-              className="collabListEdit"
-              onClick={() => ajouteAuBon(params.row)}
-            >
-              Ajoute au Devis
-            </button>
-          </>
-        );
-      },
-    },
   ];
 
   return (
     <Fragment>
       <div className="">
+        <div
+          className="w-[270px] p-4 mb-8 shadow-xl bg-white rounded-2xl"
+          role="presentation"
+        >
+          <Breadcrumbs aria-label="breadcrumb">
+            <Link to="/list-devis">
+              <Linka className="text-2xl" underline="hover" color="inherit">
+                Devis
+              </Linka>
+            </Link>
+            <Link to="/creer-devis">
+              <Linka underline="hover" color="inherit">
+                Creer Devis
+              </Linka>
+            </Link>
+
+            <Linka underline="hover" color="text.primary" aria-current="page">
+              Bois-Dur
+            </Linka>
+          </Breadcrumbs>
+        </div>
         <div className="ml-6 grid gap-10">
           <Typography className="mt-8" variant="h4" color="gray">
             List Des Bois Dur En Stock:

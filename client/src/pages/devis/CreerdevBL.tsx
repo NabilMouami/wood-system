@@ -6,9 +6,11 @@ import {
   DialogTitle,
   DialogContent,
   Typography,
+  Breadcrumbs,
+  Link as Linka,
 } from "@mui/material";
 import Box from "@mui/material/Box";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 
@@ -63,9 +65,6 @@ function CreerdevBL() {
     setRowTable(row);
     setQuantity(row.pieces);
   };
-  const handleSelectRemise = (e: any) => {
-    setRemiseItem(e.target.value);
-  };
 
   const handleSubmitBon = (e: React.FormEvent) => {
     e.preventDefault();
@@ -81,9 +80,9 @@ function CreerdevBL() {
         rowTable.epaisseur *
         Math.pow(10, -6),
       unity: "M3",
-      prix_unity: rowTable.prix_unity,
+      prix_unity: rowTable.prix_vente,
       prix_total:
-        rowTable.prix_unity *
+        rowTable.prix_vente *
         quantity *
         rowTable.long *
         rowTable.larg *
@@ -108,20 +107,20 @@ function CreerdevBL() {
       long: rowTable.long,
       unity: "M3",
 
-      prix_ht: rowTable.prix_unity,
+      prix_ht: rowTable.prix_vente,
       montant_ht: toPrecision(
         quantity *
           rowTable.long *
           rowTable.larg *
           rowTable.epaisseur *
           Math.pow(10, -6) *
-          rowTable.prix_unity,
+          rowTable.prix_vente,
         2
       ),
       num_devis: numFact?.max + 1,
     };
     custom_axios
-      .post(`/devis/boisblanc/${rowTable.id}`, data, {
+      .post("/devis/boisblanc", data, {
         headers: {
           Authorization: "Bearer " + localStorage.getItem("token"),
         },
@@ -134,6 +133,25 @@ function CreerdevBL() {
   };
 
   const columns = [
+    {
+      field: "modification",
+      headerName: "Modifications",
+      headerClassName: "super-app-theme--cell",
+      width: 420,
+      renderCell: (params: any) => {
+        return (
+          <>
+            {/* update data of collabs */}
+            <button
+              className="collabListEdit"
+              onClick={() => ajouteAuBon(params.row)}
+            >
+              Ajoute au Devis
+            </button>
+          </>
+        );
+      },
+    },
     {
       field: "marque",
       headerName: "Marque:",
@@ -198,30 +216,32 @@ function CreerdevBL() {
       headerClassName: "super-app-theme--cell",
       width: 150,
     },
-    {
-      field: "modification",
-      headerName: "Modifications",
-      headerClassName: "super-app-theme--cell",
-      width: 420,
-      renderCell: (params: any) => {
-        return (
-          <>
-            {/* update data of collabs */}
-            <button
-              className="collabListEdit"
-              onClick={() => ajouteAuBon(params.row)}
-            >
-              Ajoute au Devis
-            </button>
-          </>
-        );
-      },
-    },
   ];
 
   return (
     <Fragment>
       <div className="">
+        <div
+          className="w-[300px] p-4 mb-8 shadow-xl bg-white rounded-2xl"
+          role="presentation"
+        >
+          <Breadcrumbs aria-label="breadcrumb">
+            <Link to="/list-devis">
+              <Linka className="text-2xl" underline="hover" color="inherit">
+                Devis
+              </Linka>
+            </Link>
+            <Link to="/creer-devis">
+              <Linka underline="hover" color="inherit">
+                Creer Devis
+              </Linka>
+            </Link>
+
+            <Linka underline="hover" color="text.primary" aria-current="page">
+              Bois-Blanc
+            </Linka>
+          </Breadcrumbs>
+        </div>
         <div className="ml-6 grid gap-10">
           <Typography className="mt-8" variant="h4" color="gray">
             List Des Bois Blanc En Stock:

@@ -6,6 +6,8 @@ import {
   DialogTitle,
   DialogContent,
   Typography,
+  Breadcrumbs,
+  Link as Linka,
 } from "@mui/material";
 import Box from "@mui/material/Box";
 import { Link, useNavigate } from "react-router-dom";
@@ -73,17 +75,10 @@ function CreerfctBR() {
       type: rowTable.type + " " + rowTable.marque,
       pieces: quantity,
       long: rowTable.long,
-      quantity: quantity * rowTable.long_moyenne,
+      quantity: quantity * rowTable.long,
       unity: "ML",
       prix_unity: rowTable.prix_unity,
-      prix_total:
-        rowTable.prix_unity *
-        quantity *
-        rowTable.long *
-        rowTable.larg *
-        rowTable.epaisseur *
-        remiseItem *
-        Math.pow(10, -6),
+      prix_total: rowTable.prix_unity * quantity * rowTable.long * remiseItem,
       remise: remiseItem,
     };
     dispatch(ajouteEnBon(item) as any);
@@ -93,13 +88,16 @@ function CreerfctBR() {
       designation: rowTable.type + " " + rowTable.marque,
       qte: quantity,
       pieces: rowTable.pieces - quantity,
-      quantity: toPrecision(quantity * rowTable.long_moyenne, 2),
-      long: rowTable.long_moyenne,
+      piece: rowTable.piece - quantity,
+      metre_lineare: rowTable.metre_lineare - quantity * rowTable.long,
+      n_fardou: rowTable.n_fardou,
+      quantity: toPrecision(quantity * rowTable.long, 2),
+      long: rowTable.long,
       unity: "ML",
 
       prix_ht: rowTable.prix_unity,
       montant_ht: toPrecision(
-        quantity * rowTable.long_moyenne * rowTable.prix_unity * remiseItem,
+        quantity * rowTable.long * rowTable.prix_unity * remiseItem,
         2
       ),
       num_facture: numFact?.max + 1,
@@ -234,6 +232,27 @@ function CreerfctBR() {
   return (
     <Fragment>
       <div className="">
+        <div
+          className="w-[340px] p-4 mb-8 shadow-xl bg-white rounded-2xl"
+          role="presentation"
+        >
+          <Breadcrumbs aria-label="breadcrumb">
+            <Link to="/list-factures">
+              <Linka className="text-2xl" underline="hover" color="inherit">
+                Facteur
+              </Linka>
+            </Link>
+            <Link to="/creer-facture">
+              <Linka underline="hover" color="inherit">
+                Creer Facteur
+              </Linka>
+            </Link>
+
+            <Linka underline="hover" color="text.primary" aria-current="page">
+              Bois-Rouge
+            </Linka>
+          </Breadcrumbs>
+        </div>
         <div className="bg-white rounded-2xl flex justify-center gap-6 m-10 p-8">
           <h2 className="font-bold text-2xl underline">Vendez Par:</h2>
           <Link to="/creer-fct-BR">
@@ -243,7 +262,7 @@ function CreerfctBR() {
           </Link>
           <Link to="/creer-fct-BR/fardou">
             <button className="bg-green-400 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded h-10">
-              Vente Fardou Complete
+              Vente Par Gros
             </button>
           </Link>
         </div>

@@ -6,6 +6,8 @@ import {
   DialogTitle,
   DialogContent,
   Typography,
+  Breadcrumbs,
+  Link as Linka,
 } from "@mui/material";
 import Box from "@mui/material/Box";
 import { Link, useNavigate } from "react-router-dom";
@@ -24,7 +26,6 @@ function CreerfsctBRFardou() {
   const [rowTable, setRowTable] = useState({});
   const [numFact, setNumFact] = useState({ max: 1 });
 
-  const navigate = useNavigate();
   const dispatch = useDispatch();
   const uniqBy = (arr, predicate) => {
     const cb =
@@ -86,42 +87,37 @@ function CreerfsctBRFardou() {
     const item = {
       classbois: "boisrouge",
       type: rowTable.type + " " + rowTable.marque,
-      pieces: quantity,
+      pieces: rowTable.pieces,
       long: rowTable.long,
-      quantity: quantity * rowTable.long_moyenne,
+      quantity: rowTable.long_moyenne,
       unity: "ML",
       prix_unity: rowTable.prix_unity,
-      prix_total:
-        rowTable.prix_unity *
-        quantity *
-        rowTable.long *
-        rowTable.larg *
-        rowTable.epaisseur *
-        remiseItem *
-        Math.pow(10, -6),
-      remise: remiseItem,
+      prix_total: toPrecision(
+        rowTable.metre_lineare * rowTable.prix_unity * remiseItem,
+        2
+      ),
     };
     dispatch(ajouteEnBon(item));
     setOpen(!open);
     const data = {
       type: "boisrouge",
       designation: rowTable.type + " " + rowTable.marque,
-      qte: quantity,
-      pieces: rowTable.pieces - quantity,
-      quantity: toPrecision(quantity * rowTable.long_moyenne, 2),
+      qte: rowTable.pieces,
+      pieces: rowTable.pieces,
+      quantity: rowTable.metre_lineare,
       long: rowTable.long_moyenne,
       unity: "ML",
 
       prix_ht: rowTable.prix_unity,
       montant_ht: toPrecision(
-        quantity * rowTable.long_moyenne * rowTable.prix_unity * remiseItem,
+        rowTable.metre_lineare * rowTable.prix_unity * remiseItem,
         2
       ),
       num_facture: numFact?.max + 1,
       remise: remiseItem,
     };
     custom_axios
-      .post(`/facturation/boisrouge/${rowTable.id}`, data, {
+      .post("/facturation/boisrougefardou", data, {
         headers: {
           Authorization: "Bearer " + localStorage.getItem("token"),
         },
@@ -130,13 +126,6 @@ function CreerfsctBRFardou() {
         toast.success("Changement En Stock Success !!", {
           position: "top-right",
         });
-
-        const indexOfItemInArray = listBois.findIndex(
-          (q) => q.id === rowTable.id
-        );
-        if (indexOfItemInArray > -1) {
-          listBois[indexOfItemInArray].pieces = rowTable.pieces - quantity;
-        }
       });
   };
 
@@ -249,6 +238,27 @@ function CreerfsctBRFardou() {
   return (
     <Fragment>
       <div className="">
+        <div
+          className="w-[370px] p-4 mb-8 shadow-xl bg-white rounded-2xl"
+          role="presentation"
+        >
+          <Breadcrumbs aria-label="breadcrumb">
+            <Link to="/list-factures">
+              <Linka className="text-2xl" underline="hover" color="inherit">
+                Facteur
+              </Linka>
+            </Link>
+            <Link to="/creer-facture">
+              <Linka underline="hover" color="inherit">
+                Creer Facteur
+              </Linka>
+            </Link>
+
+            <Linka underline="hover" color="text.primary" aria-current="page">
+              Bois-Rouge-Fardou
+            </Linka>
+          </Breadcrumbs>
+        </div>
         <div className="bg-white rounded-2xl flex justify-center gap-6 m-10 p-8">
           <h2 className="font-bold text-2xl underline">Vendez Par:</h2>
           <Link to="/creer-fct-BR">
@@ -258,13 +268,13 @@ function CreerfsctBRFardou() {
           </Link>
           <Link to="/creer-fct-BR/fardou">
             <button className="bg-green-400 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded h-10">
-              Vente Fardou Complete
+              Vente Par Gros
             </button>
           </Link>
         </div>
         <div className="ml-6 grid gap-10">
           <Typography className="mt-8" variant="h4" color="gray">
-            List Des Bois Rouge En Stock:
+            List Des Fardoux Bois Rouge En Stock:
           </Typography>
         </div>
         <Fragment>
@@ -274,12 +284,13 @@ function CreerfsctBRFardou() {
               <form onSubmit={handleSubmitBon}>
                 <div className="flex justify-around items-center mb-5 font-bold">
                   <div className="flex flex-col">
-                    <label>Entrez Une Quantity:</label>
+                    <label>La Quantity:</label>
                     <input
                       type="number"
-                      className="w-full px-4 py-2 text-base border border-gray-300 rounded outline-none focus:ring-blue-500 focus:border-blue-500 focus:ring-1"
+                      className="w-full px-4 py-2 text-base rounded outline-none focus:ring-blue-500 focus:border-blue-500 focus:ring-1"
                       defaultValue={quantity}
                       onChange={(e) => setQuantity(parseInt(e.target.value))}
+                      disabled
                     />
                   </div>
                   <div className="w-72 m-6">

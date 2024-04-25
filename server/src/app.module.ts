@@ -22,6 +22,9 @@ import { BoisRougeModule } from './stock/boisrouge/boisrouge.module';
 import { DevisModule } from './devis/devis.module';
 import { Devis } from './devis/entities/devis.entity';
 import { DevisBois } from './devis/entities/devisbois.entity';
+import { BonLivr } from './bonlivr/entities/bonlivr.entity';
+import { BonLivrBois } from './bonlivr/entities/bonlivrbois.entity';
+import { BonLivrModule } from './bonlivr/bonlivr.module';
 
 // FIND ALL USERS
 // ADD USER
@@ -60,6 +63,8 @@ import { DevisBois } from './devis/entities/devisbois.entity';
           FactureBois,
           Devis,
           DevisBois,
+          BonLivr,
+          BonLivrBois,
         ],
       }),
     }),
@@ -73,6 +78,7 @@ import { DevisBois } from './devis/entities/devisbois.entity';
     PanneauModule,
     FactureModule,
     DevisModule,
+    BonLivrModule,
   ],
 
   controllers: [],

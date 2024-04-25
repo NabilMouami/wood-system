@@ -10,33 +10,49 @@ import {
   Link as Linka,
 } from "@mui/material";
 import Box from "@mui/material/Box";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 
-import { ajouteEnBon } from "../../actions/action";
-
-import { GetContrePlaque } from "../../models/bois/ContrePlaque";
+import { ajouteEnBonLivr } from "../../actions/action";
 import custom_axios from "../../axios/AxiosSetup";
-function CreerfctCP() {
-  const [open, setOpen] = useState<boolean>(false);
-  const [listBois, setListBois] = useState<Array<GetContrePlaque>>([]);
+
+function CreerblvBRFardou() {
+  const [open, setOpen] = useState(false);
+  const [listBois, setListBois] = useState([]);
   const [quantity, setQuantity] = useState(0);
   const [remiseItem, setRemiseItem] = useState(1);
-  interface NumFacture {
-    max: number;
-  }
-  const [rowTable, setRowTable] = useState<GetContrePlaque>(
-    {} as GetContrePlaque
-  );
-  const [numFact, setNumFact] = useState<NumFacture>({ max: 1 });
 
-  const navigate = useNavigate();
+  const [rowTable, setRowTable] = useState({});
+  const [numFact, setNumFact] = useState({ max: 1 });
+
   const dispatch = useDispatch();
+
+  function handleClick(event) {
+    event.preventDefault();
+    console.info("You clicked a breadcrumb.");
+  }
+
+  const uniqBy = (arr, predicate) => {
+    const cb =
+      typeof predicate === "function" ? predicate : (o) => o[predicate];
+
+    return [
+      ...arr
+        .reduce((map, item) => {
+          const key = item === null || item === undefined ? item : cb(item);
+
+          map.has(key) || map.set(key, item);
+
+          return map;
+        }, new Map())
+        .values(),
+    ];
+  };
 
   useEffect(() => {
     custom_axios
-      .get("/stock/contre-plaque", {
+      .get("/stock/boisrouge", {
         headers: {
           Authorization: "Bearer " + localStorage.getItem("token"),
         },
@@ -47,72 +63,67 @@ function CreerfctCP() {
   }, []);
   useEffect(() => {
     custom_axios
-      .get("/facturation/lastid/NumFact", {
+      .get("/bonlivraison/lastid/NumBonLivr", {
         headers: { Authorization: "Bearer " + localStorage.getItem("token") },
       })
       .then((res) => {
         setNumFact(res.data);
       });
   }, []);
+  var filteredArray = uniqBy(listBois, "n_fardou");
+  console.log(filteredArray);
   // function retun number float with his precision to two number after vigule
-  function toPrecision(num: number, precision: number) {
+  function toPrecision(num, precision) {
     num = Math.trunc(num * 10 ** precision) / 10 ** precision;
     return num;
   }
 
   //Ajoute Bois En Bon De Livraison
-  const ajouteAuBon = (row: any) => {
+  const ajouteAuBon = (row) => {
     setOpen(!open);
     setRowTable(row);
     setQuantity(row.pieces);
   };
-  const handleSelectRemise = (e: any) => {
+  const handleSelectRemise = (e) => {
     setRemiseItem(e.target.value);
   };
 
-  const handleSubmitBon = (e: React.FormEvent) => {
+  const handleSubmitBon = (e) => {
     e.preventDefault();
     const item = {
-      classbois: "contreplaque",
-      type: rowTable.marque,
-      pieces: quantity,
+      classbois: "boisrouge",
+      type: rowTable.type + " " + rowTable.marque,
+      pieces: rowTable.pieces,
       long: rowTable.long,
-      quantity: quantity * rowTable.long * rowTable.larg,
-      unity: "M2",
+      quantity: rowTable.long_moyenne,
+      unity: "ML",
       prix_unity: rowTable.prix_unity,
-      prix_total:
-        rowTable.prix_unity *
-        quantity *
-        rowTable.long *
-        rowTable.larg *
-        remiseItem,
-      remise: remiseItem,
+      prix_total: toPrecision(
+        rowTable.metre_lineare * rowTable.prix_unity * remiseItem,
+        2
+      ),
     };
-    dispatch(ajouteEnBon(item) as any);
+    dispatch(ajouteEnBonLivr(item));
     setOpen(!open);
     const data = {
-      type: "contreplaque",
-      designation: rowTable.marque,
-      qte: quantity,
-      pieces: rowTable.pieces - quantity,
-      quantity: toPrecision(quantity * rowTable.long * rowTable.larg, 2),
-      long: rowTable.long,
-      unity: "M2",
+      type: "boisrouge",
+      designation: rowTable.type + " " + rowTable.marque,
+      qte: rowTable.pieces,
+      pieces: rowTable.pieces,
+      quantity: rowTable.metre_lineare,
+      long: rowTable.long_moyenne,
+      unity: "ML",
 
       prix_ht: rowTable.prix_unity,
       montant_ht: toPrecision(
-        quantity *
-          rowTable.long *
-          rowTable.larg *
-          rowTable.prix_unity *
-          remiseItem,
+        rowTable.metre_lineare * rowTable.prix_unity * remiseItem,
         2
       ),
-      num_facture: numFact?.max + 1,
+      num_bonlivr: numFact?.max + 1,
       remise: remiseItem,
     };
     custom_axios
-      .post(`/facturation/contre-plaque/${rowTable.id}`, data, {
+      .post("/bonlivraison/boisrougefardou", data, {
         headers: {
           Authorization: "Bearer " + localStorage.getItem("token"),
         },
@@ -121,44 +132,69 @@ function CreerfctCP() {
         toast.success("Changement En Stock Success !!", {
           position: "top-right",
         });
-
-        const indexOfItemInArray = listBois.findIndex(
-          (q) => q.id === rowTable.id
-        );
-        if (indexOfItemInArray > -1) {
-          listBois[indexOfItemInArray].pieces = rowTable.pieces - quantity;
-        }
       });
   };
 
   const columns = [
     {
+      field: "modification",
+      headerName: "Modifications",
+      headerClassName: "super-app-theme--cell",
+      width: 190,
+      renderCell: (params) => {
+        return (
+          <>
+            {/* update data of collabs */}
+            <button
+              className="collabListEdit"
+              onClick={() => ajouteAuBon(params.row)}
+            >
+              Ajoute au Bon
+            </button>
+          </>
+        );
+      },
+    },
+    {
       field: "type",
       headerName: "Type:",
       headerClassName: "super-app-theme--cell",
 
-      width: 140,
+      width: 150,
     },
     {
       field: "marque",
       headerName: "Marque:",
       headerClassName: "super-app-theme--cell",
 
-      width: 140,
+      width: 150,
+    },
+    {
+      field: "quality",
+      headerName: "Quality:",
+      headerClassName: "super-app-theme--cell",
+
+      width: 120,
     },
     {
       field: "fornisseur",
       headerName: "Fornisseur:",
       headerClassName: "super-app-theme--cell",
-
       width: 130,
     },
     {
-      field: "face",
-      headerName: "Face:",
+      field: "n_fardou",
+      headerName: "Num Fardou:",
       headerClassName: "super-app-theme--cell",
 
-      width: 100,
+      width: 150,
+    },
+    {
+      field: "prix_unity",
+      headerName: "Prix Unite:",
+      headerClassName: "super-app-theme--cell",
+
+      width: 120,
     },
     {
       field: "pieces",
@@ -167,10 +203,22 @@ function CreerfctCP() {
       width: 120,
     },
     {
-      field: "long",
-      headerName: "Longeur:",
+      field: "long_moyenne",
+      headerName: "Long Avg:",
+      headerClassName: "super-app-theme--cell",
+      width: 120,
+    },
+    {
+      field: "metre_lineare",
+      headerName: "ML:",
       headerClassName: "super-app-theme--cell",
       width: 100,
+    },
+    {
+      field: "volume",
+      headerName: "Volume Fardou:",
+      headerClassName: "super-app-theme--cell",
+      width: 110,
     },
     {
       field: "larg",
@@ -182,84 +230,73 @@ function CreerfctCP() {
       field: "epaisseur",
       headerName: "Epaisseur:",
       headerClassName: "super-app-theme--cell",
-      width: 100,
-    },
-    {
-      field: "prix_unity",
-      headerName: "Prix Unite:",
-      headerClassName: "super-app-theme--cell",
-
-      width: 100,
+      width: 110,
     },
     {
       field: "date_creation",
       headerName: "Date Ajoute:",
       headerClassName: "super-app-theme--cell",
-      width: 130,
-    },
-    {
-      field: "modification",
-      headerName: "Modifications",
-      headerClassName: "super-app-theme--cell",
-      width: 200,
-      renderCell: (params: any) => {
-        return (
-          <>
-            {/* update data of collabs */}
-            <button
-              className="collabListEdit"
-              onClick={() => ajouteAuBon(params.row)}
-            >
-              Ajoute au Fucture
-            </button>
-          </>
-        );
-      },
+      width: 140,
     },
   ];
 
   return (
     <Fragment>
       <div className="">
+        <div className="bg-white rounded-2xl flex justify-center gap-6 m-10 p-8">
+          <h2 className="font-bold text-2xl underline">Vendez Par:</h2>
+          <Link to="/creer-fct-BR">
+            <button className="bg-orange-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded h-10">
+              Vente Par Details
+            </button>
+          </Link>
+          <Link to="/creer-fct-BR/fardou">
+            <button className="bg-green-400 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded h-10">
+              Vente Par Gros
+            </button>
+          </Link>
+        </div>
         <div
-          className="w-[340px] p-4 mb-8 shadow-xl bg-white rounded-2xl"
+          className="w-[500px] p-4 mb-8 shadow-xl bg-white rounded-2xl"
           role="presentation"
+          onClick={handleClick}
         >
           <Breadcrumbs aria-label="breadcrumb">
-            <Link to="/list-factures">
+            <Link to="/list-bonlivraison">
               <Linka className="text-2xl" underline="hover" color="inherit">
-                Facteur
+                Bon Livraison
               </Linka>
             </Link>
-            <Link to="/creer-facture">
+            <Link to="/creer-bonlivraison">
               <Linka underline="hover" color="inherit">
-                Creer Facteur
+                Creer Bon Livraison
               </Linka>
             </Link>
 
             <Linka underline="hover" color="text.primary" aria-current="page">
-              Contre-Plaque
+              Bois Rouge Gros
             </Linka>
           </Breadcrumbs>
         </div>
         <div className="ml-6 grid gap-10">
           <Typography className="mt-8" variant="h4" color="gray">
-            List Des Contres Plaques En Stock:
+            List Des Fardoux Bois Rouge En Stock:
           </Typography>
         </div>
         <Fragment>
           <Dialog onClose={() => setOpen(!open)} open={open}>
-            <DialogTitle>Ajoute Item en Facture.</DialogTitle>
+            <DialogTitle>Ajoute Item en Bon Livraison.</DialogTitle>
             <DialogContent>
               <form onSubmit={handleSubmitBon}>
                 <div className="flex justify-around items-center mb-5 font-bold">
                   <div className="flex flex-col">
-                    <label>Entrez Une Quantity:</label>
+                    <label>La Quantity:</label>
                     <input
                       type="number"
-                      className="w-full px-4 py-2 text-base border border-gray-300 rounded outline-none focus:ring-blue-500 focus:border-blue-500 focus:ring-1"
+                      className="w-full px-4 py-2 text-base rounded outline-none focus:ring-blue-500 focus:border-blue-500 focus:ring-1"
                       defaultValue={quantity}
                       onChange={(e) => setQuantity(parseInt(e.target.value))}
+                      disabled
                     />
                   </div>
                   <div className="w-72 m-6">
@@ -282,6 +319,7 @@ function CreerfctCP() {
             </DialogContent>
           </Dialog>
         </Fragment>
+
         <Box
           sx={{
             height: "auto",
@@ -299,15 +337,16 @@ function CreerfctCP() {
             },
             backgroundColor: "#fff",
             "& .super-app-theme--cell": {
-              backgroundColor: "#1ad1ff",
+              backgroundColor: "#ff0000",
               color: "#000",
+              fontWeight: "bold",
               fontSize: "18px",
               fontFamily: "cursive",
             },
           }}
         >
           <DataGrid
-            rows={listBois}
+            rows={filteredArray}
             columns={columns}
             getRowId={(row) => row.id}
             slots={{ toolbar: GridToolbar }}
@@ -326,4 +365,4 @@ function CreerfctCP() {
   );
 }
 
-export default CreerfctCP;
+export default CreerblvBRFardou;

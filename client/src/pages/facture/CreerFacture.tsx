@@ -26,6 +26,8 @@ function CreerFacture() {
   const [dateCreation, setDateCreation] = useState<string>("");
   const [totalBon, setTotalBon] = useState<number>(0);
   const [reglement, setReglement] = useState("espece");
+  const [payer, setPayer] = useState("payer");
+
   const [remise, setRemise] = useState(1);
   const [tva, setTva] = useState(0.2);
 
@@ -109,6 +111,9 @@ function CreerFacture() {
   const handleSelectRegl = (e: any) => {
     setReglement(e.target.value);
   };
+  const handleSelectPayer = (e: any) => {
+    setPayer(e.target.value);
+  };
   const handleSubmitBon = (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -117,6 +122,7 @@ function CreerFacture() {
     }
     const data2 = {
       reglement: reglement,
+      payer: payer,
       remise: remise,
       tva: tva,
       date_creation: dateCreation,
@@ -168,6 +174,14 @@ function CreerFacture() {
             <option value="credit">Cridet</option>
             <option value="effet">Effet</option>
             <option value="check">Check</option>
+          </select>
+        </div>
+        <div className="w-72">
+          <label>Payer/Non-Payer:</label>
+
+          <select value={payer} onChange={handleSelectPayer}>
+            <option value="payer">Payer</option>
+            <option value="non-payer">Non-Payer</option>
           </select>
         </div>
         <div className="w-50 flex flex-col">
@@ -230,21 +244,21 @@ function CreerFacture() {
 
           <div className="flex items-center justify-around">
             <img
-              src="/dazizwood.jpg"
+              src="/gourdbois.jpg"
               alt="logo-sarl"
               className="object-cover"
-              width="100"
-              height="100"
+              width="150"
+              height="150"
             />
             <div>
               <Typography color="blue" className="text-center">
-                Ste Dazizwood Sarl.
+                Ste GourdBois Sarl.
               </Typography>
               <Typography color="black" className="text-center">
                 Import et Ventes des bois et sont composition.
               </Typography>
               <Typography color="gray" className="text-center">
-                N371,rue Mekness,Hay Salam ,Tel: ....., Email:bois@gmail.com.
+                N371,rue Fes,Hay Salam ,Tel: ....., Email:bois@gmail.com.
               </Typography>
             </div>
           </div>
@@ -302,8 +316,10 @@ function CreerFacture() {
                       <td>
                         {toPrecision(quantity, 2)} {unity}
                       </td>
-                      <td>{prix_unity}</td>
-                      <td className="amount1">{toPrecision(prix_total, 2)}</td>
+                      <td>{prix_unity}dh</td>
+                      <td className="amount1">
+                        {toPrecision(prix_total, 2)}dh
+                      </td>
                     </tr>
                   </tbody>
                 </Fragment>

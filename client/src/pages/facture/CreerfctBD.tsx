@@ -6,9 +6,11 @@ import {
   DialogTitle,
   DialogContent,
   Typography,
+  Breadcrumbs,
+  Link as Linka,
 } from "@mui/material";
 import Box from "@mui/material/Box";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 
@@ -164,19 +166,19 @@ function CreerfctBD() {
       headerName: "Num Fardou:",
       headerClassName: "super-app-theme--cell",
 
-      width: 150,
+      width: 140,
     },
     {
       field: "pieces",
       headerName: "Piece Total:",
       headerClassName: "super-app-theme--cell",
-      width: 150,
+      width: 130,
     },
     {
       field: "long",
       headerName: "Longeur:",
       headerClassName: "super-app-theme--cell",
-      width: 120,
+      width: 100,
     },
     {
       field: "larg",
@@ -214,7 +216,7 @@ function CreerfctBD() {
       field: "date_creation",
       headerName: "Date Ajoute:",
       headerClassName: "super-app-theme--cell",
-      width: 150,
+      width: 140,
     },
     {
       field: "modification",
@@ -240,6 +242,27 @@ function CreerfctBD() {
   return (
     <Fragment>
       <div className="">
+        <div
+          className="w-[340px] p-4 mb-8 shadow-xl bg-white rounded-2xl"
+          role="presentation"
+        >
+          <Breadcrumbs aria-label="breadcrumb">
+            <Link to="/list-factures">
+              <Linka className="text-2xl" underline="hover" color="inherit">
+                Facteur
+              </Linka>
+            </Link>
+            <Link to="/creer-facture">
+              <Linka underline="hover" color="inherit">
+                Creer Facteur
+              </Linka>
+            </Link>
+
+            <Linka underline="hover" color="text.primary" aria-current="page">
+              Bois-Dur
+            </Linka>
+          </Breadcrumbs>
+        </div>
         <div className="ml-6 grid gap-10">
           <Typography className="mt-8" variant="h4" color="gray">
             List Des Bois Dur En Stock:

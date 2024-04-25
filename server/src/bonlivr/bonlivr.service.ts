@@ -1,14 +1,14 @@
 import { HttpException, HttpStatus, Injectable, Req } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { FactureBois } from './entities/facturebois.entity';
-import { Facture } from './entities/facture.entity';
+import { BonLivrBois } from './entities/bonlivrbois.entity';
+import { BonLivr } from './entities/bonlivr.entity';
 import { User } from 'src/user/entities/user.entity';
 import {
-  CreateFactureBoisDto,
-  CreateFactureBoisRougeDto,
-} from './dto/facturebois.dto';
-import { CreateFactureDto } from './dto/facture.dto';
+  CreateBonLivrBoisDto,
+  CreateBonLivrBoisRougeDto,
+} from './dto/bonlivrbois.dto';
+import { CreateBonLivrDto } from './dto/bonlivr.dto';
 import { Client } from 'src/client/entities/client.entity';
 import { BoisBlancService } from 'src/stock/boisblanc/boisblanc.service';
 import { BoisDurService } from 'src/stock/boisdur/boisdur.service';
@@ -17,12 +17,12 @@ import { ContrePlaqueService } from 'src/stock/contreplaque/contreplaque.service
 import { BoisRougeService } from 'src/stock/boisrouge/boisrouge.service';
 
 @Injectable()
-export class FactureService {
+export class BonLivrService {
   constructor(
-    @InjectRepository(FactureBois)
-    private fboRepository: Repository<FactureBois>,
-    @InjectRepository(Facture)
-    private facRepository: Repository<Facture>,
+    @InjectRepository(BonLivrBois)
+    private fboRepository: Repository<BonLivrBois>,
+    @InjectRepository(BonLivr)
+    private facRepository: Repository<BonLivr>,
     @InjectRepository(User) private userRepository: Repository<User>,
     @InjectRepository(Client) private clRepository: Repository<Client>,
     private readonly blService: BoisBlancService,
@@ -32,27 +32,27 @@ export class FactureService {
     private readonly cpService: ContrePlaqueService,
   ) {}
 
-  // factur item bois blanc
+  // bonlivr item bois blanc
 
   async createFactureBoisBlanc(
     idbois: number,
-    createBolDto: CreateFactureBoisDto,
+    createBolDto: CreateBonLivrBoisDto,
   ) {
     await this.blService.updatePiecesBois(idbois, createBolDto.pieces);
     return this.fboRepository.save(createBolDto);
   }
-  // factur item bois dur
+  // bonlivr item bois dur
   async createFactureBoisDur(
     idbois: number,
-    createBolDto: CreateFactureBoisDto,
+    createBolDto: CreateBonLivrBoisDto,
   ) {
     await this.bdService.updatePiecesBois(idbois, createBolDto.pieces);
     return this.fboRepository.save(createBolDto);
   }
-  // factur item bois rouge
+  //bonlivr item bois rouge
   async createFactureBoisRouge(
     idbois: number,
-    createBolDto: CreateFactureBoisRougeDto,
+    createBolDto: CreateBonLivrBoisRougeDto,
   ) {
     await this.brService.updatePiecesBois(
       idbois,
@@ -65,24 +65,24 @@ export class FactureService {
     );
     return this.fboRepository.save(createBolDto);
   }
-  // facture Fardou bois rouge
-  async createFactureBoisRougeFardou(createBolDto: CreateFactureBoisRougeDto) {
+  // bonlivr Fardou bois rouge
+  async createFactureBoisRougeFardou(createBolDto: CreateBonLivrBoisRougeDto) {
     await this.brService.removeFardou(createBolDto.n_fardou);
     return this.fboRepository.save(createBolDto);
   }
 
-  // factur item Panneau
+  // bonlivr item Panneau
   async createFacturePanneau(
     idbois: number,
-    createBolDto: CreateFactureBoisDto,
+    createBolDto: CreateBonLivrBoisDto,
   ) {
     await this.pnService.updatePiecesBois(idbois, createBolDto.pieces);
     return this.fboRepository.save(createBolDto);
   }
-  // factur item Contre Plaque
+  // bonlivr item Contre Plaque
   async createFactureContrePlaque(
     idbois: number,
-    createBolDto: CreateFactureBoisDto,
+    createBolDto: CreateBonLivrBoisDto,
   ) {
     await this.cpService.updatePiecesBois(idbois, createBolDto.pieces);
     return this.fboRepository.save(createBolDto);
@@ -90,18 +90,18 @@ export class FactureService {
   async createFacture(
     iduser: number,
     idclient: number,
-    createFacDto: CreateFactureDto,
+    createFacDto: CreateBonLivrDto,
   ) {
     const user = await this.userRepository.findOneBy({ iduser });
     if (!user)
       throw new HttpException(
-        'User not found. Cannot create Facture',
+        'User not found. Cannot create BonLivraison',
         HttpStatus.BAD_REQUEST,
       );
     const client = await this.clRepository.findOneBy({ idclient });
     if (!client)
       throw new HttpException(
-        'Client not found. Cannot create Facture',
+        'Client not found. Cannot create BonLivraison',
         HttpStatus.BAD_REQUEST,
       );
 
@@ -109,45 +109,44 @@ export class FactureService {
   }
   getFactures() {
     return this.facRepository
-      .createQueryBuilder('facture')
-      .leftJoinAndSelect('facture.user', 'user')
-      .innerJoinAndSelect('facture.client', 'client')
+      .createQueryBuilder('bonlivr')
+      .leftJoinAndSelect('bonlivr.user', 'user')
+      .innerJoinAndSelect('bonlivr.client', 'client')
       .innerJoinAndSelect(
-        FactureBois,
-        'facture_bois',
-        'facture.id=facture_bois.num_facture',
+        BonLivrBois,
+        'bonlivr_bois',
+        'bonlivr.id=bonlivr_bois.num_bonlivr',
       )
       .select([
-        'facture.id as id',
-        'facture.date_creation as date_creation',
-        'facture.tva as tva',
-        'facture.remise as remise',
-        'facture.reglement as reglement',
-        'facture.payer as payer',
+        'bonlivr.id as id',
+        'bonlivr.date_creation as date_creation',
+        'bonlivr.remise as remise',
+        'bonlivr.reglement as reglement',
+        'bonlivr.payer as payer',
         'user.firstName as firstName',
         'user.lastName as lastName',
         'client.fullName as fullName',
-        '(sum(facture_bois.montant_ht) * facture.remise * facture.tva) + sum(facture_bois.montant_ht) as sum',
+        '(sum(bonlivr_bois.montant_ht) * bonlivr.remise) + sum(bonlivr_bois.montant_ht) as sum',
       ])
-      .groupBy('facture.id')
+      .groupBy('bonlivr.id')
 
       .execute();
   }
 
-  async getFactureBoisByNum(numFacture: number): Promise<any | undefined> {
+  async getFactureBoisByNum(numBonlivr: number): Promise<any | undefined> {
     return await this.fboRepository
-      .createQueryBuilder('facture_bois')
-      .select(['facture_bois.*'])
-      .where('num_facture = :numfacture', {
-        numfacture: numFacture,
+      .createQueryBuilder('bonlivr_bois')
+      .select(['bonlivr_bois.*'])
+      .where('num_bonlivr = :numbonlivr', {
+        numbonlivr: numBonlivr,
       })
       .execute();
   }
 
   async getLastIdFacture() {
     return await this.facRepository
-      .createQueryBuilder('fact')
-      .select('MAX(fact.id)', 'max')
+      .createQueryBuilder('bonlivr')
+      .select('MAX(bonlivr.id)', 'max')
       .getRawOne();
   }
 }

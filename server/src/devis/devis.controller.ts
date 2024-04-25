@@ -12,7 +12,10 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { DevisService } from './devis.service';
-import { CreateDevisBoisDto } from './dto/devisbois.dto';
+import {
+  CreateDevisBoisDto,
+  CreateDevisBoisRougeDto,
+} from './dto/devisbois.dto';
 import { CreateDevisDto } from './dto/devis.dto';
 import { ApiSecurity, ApiTags } from '@nestjs/swagger';
 
@@ -26,7 +29,21 @@ export class DevisController {
   createDevisBD(@Body() createUserDto: CreateDevisBoisDto) {
     return this.bolService.createDevisBoisDur(createUserDto);
   }
-
+  @ApiSecurity('JWT-auth')
+  @Post('/boisblanc')
+  createDevisBL(@Body() createUserDto: CreateDevisBoisDto) {
+    return this.bolService.createDevisBoisBlanc(createUserDto);
+  }
+  @ApiSecurity('JWT-auth')
+  @Post('/boisrouge')
+  createFacBR(@Body() createUserDto: CreateDevisBoisRougeDto) {
+    return this.bolService.createDevisBoisRouge(createUserDto);
+  }
+  @ApiSecurity('JWT-auth')
+  @Post('/boisrougefardou')
+  createFacBRFardou(@Body() createUserDto: CreateDevisBoisRougeDto) {
+    return this.bolService.createDevisBoisRougeFardou(createUserDto);
+  }
   @ApiSecurity('JWT-auth')
   @Post('/contre-plaque')
   createDevisCP(@Body() createUserDto: CreateDevisBoisDto) {

@@ -30,7 +30,7 @@ const Login = () => {
       });
       localStorage.setItem("token", response.data.token);
       dispatchEvent(new Event("storage"));
-      navigate("/");
+      navigate("/statistics");
     } catch (error: any) {
       if (error.response.status == 401) toast.warn(error.response.data.message);
     }
@@ -46,8 +46,8 @@ const Login = () => {
         </h1>
         <div className="mb-8">
           <button className="flex items-center justify-center py-3 px-4 gap-4 bg-secondary-900 w-full rounded-full mb-8 text-gray-100">
-            <img src="/bois.jpg" className="w-10 h-10 rounded-xl" />
-            Groupe Sarl Bois
+            <img src="/gourdbois.jpg" className="w-10 h-10 rounded-xl" />
+            Groupe Sarl GourdBois
           </button>
           <div className="relative mb-4">
             <RiMailLine className="absolute top-1/2 -translate-y-1/2 left-2 text-primary" />
